@@ -1,25 +1,64 @@
+import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+
+const SLIDES = [
+  {
+    image:
+      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1920&q=80",
+    alt: "Construction professionals at work",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1920&q=80",
+    alt: "Commercial building construction",
+  },
+  {
+    image:
+      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1920&q=80",
+    alt: "Modern architecture project",
+  },
+];
+
+const AUTO_PLAY_INTERVAL = 5000;
 
 export default function Hero() {
-  return (
-    <section className="relative min-h-[457px] lg:min-h-screen flex items-end lg:items-center">
-      <div className="absolute inset-0">
-        <img
-          src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1920&q=80"
-          alt="Construction professionals at work"
-          className="w-full h-full object-cover"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40" />
-      </div>
+  const [current, setCurrent] = useState(0);
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-[28px] lg:px-8 pb-12 lg:pb-0 pt-20 lg:pt-24">
+  const next = useCallback(
+    () => setCurrent((prev) => (prev + 1) % SLIDES.length),
+    [],
+  );
+
+  useEffect(() => {
+    const timer = setInterval(next, AUTO_PLAY_INTERVAL);
+    return () => clearInterval(timer);
+  }, [next]);
+
+  return (
+    <section className="relative min-h-[457px] lg:min-h-screen flex items-end lg:items-center overflow-hidden">
+      {/* Carousel background images */}
+      <AnimatePresence mode="popLayout">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: "easeOut" }}
-          className="max-w-2xl"
+          key={current}
+          initial={{ opacity: 0, scale: 1.08 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 1, ease: "easeInOut" }}
+          className="absolute inset-0"
         >
+          <img
+            src={SLIDES[current].image}
+            alt={SLIDES[current].alt}
+            className="w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40" />
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Content */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-[28px] lg:px-8 pb-12 lg:pb-0 pt-20 lg:pt-24">
+        <div className="max-w-2xl">
           <motion.p
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
@@ -42,7 +81,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.6 }}
-            className="text-white text-[14px]  font-semibold lg:text-[40px] tracking-[0.15em] mb-6 lg:mb-10"
+            className="text-white text-[14px] font-semibold lg:text-[40px] tracking-[0.15em] mb-6 lg:mb-10"
           >
             PROJECT C CONSTRUCTIONS
           </motion.p>
@@ -82,7 +121,23 @@ export default function Hero() {
               CONTACT US
             </Link>
           </motion.div>
-        </motion.div>
+        </div>
+      </div>
+
+      {/* Carousel indicators - vertical, centered on right edge */}
+      <div className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center gap-2">
+        {SLIDES.map((_, i) => (
+          <button
+            key={i}
+            onClick={() => setCurrent(i)}
+            aria-label={`Go to slide ${i + 1}`}
+            className={`w-[3px] rounded-full transition-all duration-500 ${
+              i === current
+                ? "h-8 bg-primary"
+                : "h-4 bg-white/40 hover:bg-white/60"
+            }`}
+          />
+        ))}
       </div>
     </section>
   );
