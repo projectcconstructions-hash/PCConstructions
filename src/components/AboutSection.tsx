@@ -3,6 +3,7 @@ import specializedExpertiseIcon from "../assets/icons/specialized-expertise.png"
 import precisionExecutionIcon from "../assets/icons/precision-execution.png";
 import reliableDeliveryIcon from "../assets/icons/reliable-delivery.png";
 import wsibLogo from "../assets/icons/wsib-insured.png";
+import aboutHouseImg from "../assets/icons/about-house.png";
 
 interface Feature {
   icon: string;
@@ -47,27 +48,27 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: index * 0.1, duration: 0.5 }}
-      className={`rounded-[20px] p-5 lg:p-6 w-full h-[180px] lg:h-[292px] flex flex-col justify-between ${
+      className={`rounded-[20px] p-4 lg:p-6 w-full min-h-[150px] lg:h-[292px] flex flex-col gap-3 lg:gap-[38px] ${
         isGradient ? "icon-gradient text-white" : "bg-white shadow-sm"
       }`}
     >
       <img
         src={feature.icon}
         alt={feature.title}
-        className={`w-12 h-12 lg:w-20 lg:h-20 ${
+        className={`w-10 h-10 lg:w-20 lg:h-20 ${
           isGradient ? "brightness-0 invert" : ""
         }`}
       />
-      <div>
+      <div className="min-w-0">
         <h3
-          className={`text-xs lg:text-sm font-extrabold tracking-wider mb-1 lg:mb-2 ${
+          className={`text-[10px] lg:text-sm font-extrabold tracking-wider mb-1 lg:mb-2 ${
             isGradient ? "text-white" : "text-dark"
           }`}
         >
           {feature.title}
         </h3>
         <p
-          className={`text-[11px] sm:text-xs lg:text-[13px] leading-relaxed ${
+          className={`text-[9px] sm:text-xs lg:text-[13px] leading-relaxed ${
             isGradient ? "text-white/80" : "text-gray-500"
           }`}
         >
@@ -82,7 +83,7 @@ export default function AboutSection() {
   return (
     <section id="about" className="pt-16 lg:pt-24 pb-0 bg-[#FFF7F2]">
       <div className="max-w-7xl mx-auto px-[28px] lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-8 items-stretch">
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -124,30 +125,30 @@ export default function AboutSection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.7 }}
-            className="relative lg:order-1 lg:pt-10"
+            className="relative lg:order-1 flex items-end"
           >
-            <div className="grid grid-cols-12 gap-2 sm:gap-3 items-end">
-              <div className="col-span-3 rounded-xl overflow-hidden shadow-xl">
+            <div className="relative w-full h-[320px] sm:h-[420px] lg:h-full lg:min-h-[580px]">
+              <div className="absolute left-0 bottom-0 w-[32%] rounded-2xl overflow-hidden shadow-xl z-10">
                 <img
-                  src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=400&q=80"
+                  src={aboutHouseImg}
                   alt="Modern residential building"
-                  className="w-full h-40 sm:h-56 lg:h-72 object-cover hover:scale-105 transition-transform duration-700"
+                  className="w-full h-44 sm:h-60 lg:h-[320px] object-cover hover:scale-105 transition-transform duration-700"
                 />
               </div>
 
-              <div className="col-span-5 -mt-6 lg:-mt-16 rounded-xl overflow-hidden shadow-2xl border-t-4 border-primary">
+              <div className="absolute left-[20%] top-0 w-[42%] rounded-2xl overflow-hidden shadow-2xl border-t-4 border-primary z-20">
                 <img
-                  src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=600&q=80"
+                  src={aboutHouseImg}
                   alt="Luxury modern construction"
-                  className="w-full h-52 sm:h-72 lg:h-96 object-cover hover:scale-105 transition-transform duration-700"
+                  className="w-full h-56 sm:h-80 lg:h-[480px] object-cover hover:scale-105 transition-transform duration-700"
                 />
               </div>
 
-              <div className="col-span-4 rounded-xl overflow-hidden shadow-xl">
+              <div className="absolute right-0 bottom-4 w-[36%] rounded-2xl overflow-hidden shadow-xl z-10">
                 <img
-                  src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?auto=format&fit=crop&w=400&q=80"
+                  src={aboutHouseImg}
                   alt="Contemporary house exterior"
-                  className="w-full h-52 sm:h-60 lg:h-80 object-cover hover:scale-105 transition-transform duration-700"
+                  className="w-full h-48 sm:h-64 lg:h-[360px] object-cover hover:scale-105 transition-transform duration-700"
                 />
               </div>
             </div>

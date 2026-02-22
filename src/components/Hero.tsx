@@ -37,7 +37,6 @@ export default function Hero() {
 
   return (
     <section className="relative min-h-[457px] lg:min-h-screen flex items-end lg:items-center overflow-hidden">
-      {/* Carousel background images */}
       <AnimatePresence mode="popLayout">
         <motion.div
           key={current}
@@ -56,7 +55,6 @@ export default function Hero() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Content */}
       <div className="relative z-10 w-full max-w-7xl mx-auto px-[28px] lg:px-8 pb-12 lg:pb-0 pt-20 lg:pt-24">
         <div className="max-w-2xl">
           <motion.p
@@ -124,7 +122,6 @@ export default function Hero() {
         </div>
       </div>
 
-      {/* Carousel indicators - vertical, centered on right edge */}
       <div className="absolute right-4 lg:right-8 top-1/2 -translate-y-1/2 z-20 flex flex-col items-center gap-2">
         {SLIDES.map((_, i) => (
           <button
