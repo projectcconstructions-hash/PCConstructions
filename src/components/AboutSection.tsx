@@ -81,7 +81,7 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
 export default function AboutSection() {
   return (
     <section id="about" className="pt-16 lg:pt-24 pb-0 bg-[#FFF7F2]">
-      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto px-[28px] lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
           <motion.div
             initial={{ opacity: 0, x: 40 }}

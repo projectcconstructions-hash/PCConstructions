@@ -13,7 +13,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-black/60 to-black/40" />
       </div>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 lg:px-8 pt-20 lg:pt-24">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-[28px] lg:px-8 pt-20 lg:pt-24">
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
@@ -24,17 +24,17 @@ export default function Hero() {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.6 }}
-            className="text-white/90 text-sm sm:text-lg lg:text-[40px] font-medium tracking-[0.2em] mb-2 lg:mb-3"
+            className="text-white/90 text-[14px] lg:text-[40px] font-semibold tracking-[0.2em] mb-2 lg:mb-3"
           >
             BUILD BETTER{" "}
-            <span className="text-gradient italic font-semibold">SPACES</span>
+            <span className="text-gradient italic">SPACES</span>
           </motion.p>
 
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6 }}
-            className="text-[26px] sm:text-4xl md:text-5xl lg:text-[70px] font-extrabold text-white leading-[1.15] mb-3 lg:mb-4"
+            className="text-[24px] lg:text-[70px] font-bold text-white leading-[1.15] mb-3 lg:mb-4"
           >
             RESIDENTIAL & COMMERCIAL
           </motion.h1>
@@ -43,7 +43,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.6 }}
-            className="text-white/80 text-sm sm:text-base lg:text-lg tracking-[0.15em] font-light mb-8 lg:mb-10"
+            className="text-white/80 text-[14px] lg:text-[40px] tracking-[0.15em] font-light mb-8 lg:mb-10"
           >
             PROJECT C CONSTRUCTIONS
           </motion.p>

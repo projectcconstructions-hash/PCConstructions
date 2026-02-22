@@ -76,7 +76,7 @@ const STATS: StatItem[] = [
 export default function StatsSection() {
   return (
     <section className="py-12 lg:py-20 bg-[#FFF7F2]">
-      <div className="max-w-7xl mx-auto px-4 lg:px-8">
+      <div className="max-w-7xl mx-auto px-[28px] lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8 lg:gap-10">
           {STATS.map((stat, index) => (
             <motion.div
