@@ -1,7 +1,14 @@
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
+import HomePage from "./pages/HomePage";
+
 function App() {
   return (
-    <div className="min-h-screen font-['Jost']">
-      <h1 className="text-2xl font-bold p-4">PC Constructions</h1>
+    <div className="min-h-screen">
+      <Navbar />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+      </Routes>
     </div>
   );
 }

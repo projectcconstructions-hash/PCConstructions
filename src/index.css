@@ -1,1 +1,41 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #f19719;
+  --color-primary-dark: #f16319;
+  --color-primary-light: #f9b44c;
+  --color-dark: #1b1b1b;
+  --color-dark-light: #2a2a2a;
+  --font-sans: "Jost", system-ui, -apple-system, sans-serif;
+}
+
+/* Button gradient utility */
+.btn-gradient {
+  background: linear-gradient(135deg, #f19719, #f16319);
+  border-radius: 5px;
+}
+.btn-gradient:hover {
+  background: linear-gradient(135deg, #f16319, #d95510);
+}
+
+/* Icon circle gradient */
+.icon-gradient {
+  background: linear-gradient(135deg, #f19719, #f16319);
+}
+
+/* Gradient text */
+.text-gradient {
+  background: linear-gradient(135deg, #f19719, #f16319);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
