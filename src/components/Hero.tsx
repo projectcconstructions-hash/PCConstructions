@@ -42,7 +42,7 @@ export default function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.6 }}
-            className="text-white/80 text-[14px] lg:text-[40px] tracking-[0.15em] font-light mb-6 lg:mb-10"
+            className="text-white text-[14px]  font-semibold lg:text-[40px] tracking-[0.15em] mb-6 lg:mb-10"
           >
             PROJECT C CONSTRUCTIONS
           </motion.p>
