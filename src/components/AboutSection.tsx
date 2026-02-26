@@ -127,30 +127,12 @@ export default function AboutSection() {
             transition={{ duration: 0.7 }}
             className="relative lg:order-1 flex items-end"
           >
-            <div className="relative w-full h-[320px] sm:h-[420px] lg:h-full lg:min-h-[580px]">
-              <div className="absolute left-0 bottom-0 w-[32%] rounded-2xl overflow-hidden shadow-xl z-10">
-                <img
-                  src={aboutHouseImg}
-                  alt="Modern residential building"
-                  className="w-full h-44 sm:h-60 lg:h-[320px] object-cover hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-
-              <div className="absolute left-[20%] top-0 w-[42%] rounded-2xl overflow-hidden shadow-2xl border-t-4 border-primary z-20">
-                <img
-                  src={aboutHouseImg}
-                  alt="Luxury modern construction"
-                  className="w-full h-56 sm:h-80 lg:h-[480px] object-cover hover:scale-105 transition-transform duration-700"
-                />
-              </div>
-
-              <div className="absolute right-0 bottom-4 w-[36%] rounded-2xl overflow-hidden shadow-xl z-10">
-                <img
-                  src={aboutHouseImg}
-                  alt="Contemporary house exterior"
-                  className="w-full h-48 sm:h-64 lg:h-[360px] object-cover hover:scale-105 transition-transform duration-700"
-                />
-              </div>
+            <div className="w-full h-[320px] sm:h-[420px] lg:h-full lg:min-h-[580px]">
+              <img
+                src={aboutHouseImg}
+                alt="Modern construction by Project C"
+                className="w-full h-full object-cover"
+              />
             </div>
           </motion.div>
         </div>

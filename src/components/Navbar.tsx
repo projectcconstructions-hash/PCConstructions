@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState, useCallback } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 
 const NAV_LINKS = [
-  { name: "Home", path: "/" },
-  { name: "About Us", path: "/#about" },
-  { name: "Our Services", path: "/#services" },
-  { name: "Projects", path: "/#projects" },
-  { name: "Blogs", path: "/blogs" },
-  { name: "Contact", path: "/contact" },
+  { name: "Home", path: "/", hash: "" },
+  { name: "About Us", path: "/", hash: "about" },
+  { name: "Our Services", path: "/", hash: "services" },
+  { name: "Projects", path: "/", hash: "projects" },
+  { name: "Blogs", path: "/", hash: "blogs" },
+  { name: "Contact", path: "/", hash: "contact" },
 ];
 
 const SOCIAL_LINKS = [
@@ -60,6 +60,44 @@ function SocialIcon({
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const scrollToSection = useCallback(
+    (hash: string) => {
+      if (!hash) {
+        if (location.pathname !== "/") {
+          navigate("/");
+        }
+        window.scrollTo({ top: 0, behavior: "smooth" });
+        return;
+      }
+      const doScroll = () => {
+        const el = document.getElementById(hash);
+        if (el) {
+          const offset = 80; // navbar height
+          const y = el.getBoundingClientRect().top + window.scrollY - offset;
+          window.scrollTo({ top: y, behavior: "smooth" });
+        }
+      };
+      if (location.pathname !== "/") {
+        navigate("/");
+        // Wait for page to fully render before scrolling
+        const waitForElement = (attempts = 0) => {
+          const el = document.getElementById(hash);
+          if (el) {
+            doScroll();
+          } else if (attempts < 20) {
+            setTimeout(() => waitForElement(attempts + 1), 100);
+          }
+        };
+        setTimeout(() => waitForElement(), 100);
+      } else {
+        doScroll();
+      }
+    },
+    [navigate, location.pathname],
+  );
 
   return (
     <nav className="fixed top-0 left-0 w-full z-50 bg-[#111111] shadow-lg">
@@ -73,13 +111,13 @@ export default function Navbar() {
 
           <div className="hidden lg:flex items-center gap-6 xl:gap-8">
             {NAV_LINKS.map((link) => (
-              <a
+              <button
                 key={link.name}
-                href={link.path}
-                className="text-white text-[13px] font-medium tracking-wider hover:text-primary transition-colors duration-300 uppercase"
+                onClick={() => scrollToSection(link.hash)}
+                className="text-white text-[13px] font-medium tracking-wider hover:text-primary transition-colors duration-300 uppercase bg-transparent border-none cursor-pointer"
               >
                 {link.name}
-              </a>
+              </button>
             ))}
           </div>
 
@@ -132,13 +170,16 @@ export default function Navbar() {
                   animate={{ x: 0, opacity: 1 }}
                   transition={{ delay: i * 0.05, duration: 0.3 }}
                 >
-                  <a
-                    href={link.path}
-                    onClick={() => setIsOpen(false)}
-                    className="block py-3 text-sm font-medium tracking-wider text-white hover:text-primary transition-colors uppercase border-b border-white/5"
+                  <button
+                    onClick={() => {
+                      setIsOpen(false);
+                      // Delay scroll until menu close animation finishes
+                      setTimeout(() => scrollToSection(link.hash), 350);
+                    }}
+                    className="block w-full text-left py-3 text-sm font-medium tracking-wider text-white hover:text-primary transition-colors uppercase border-b border-white/5 bg-transparent border-x-0 border-t-0 cursor-pointer"
                   >
                     {link.name}
-                  </a>
+                  </button>
                 </motion.div>
               ))}
 
