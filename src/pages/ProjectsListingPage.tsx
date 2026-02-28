@@ -24,7 +24,7 @@ function SelectDropdown({
   onChange: (v: string) => void;
 }) {
   return (
-    <div className="flex-1 min-w-0">
+    <div className="w-full sm:flex-1 sm:min-w-0">
       <label className="block text-[10px] lg:text-xs font-bold text-dark uppercase tracking-wider mb-1.5">
         {label}
       </label>
@@ -32,7 +32,7 @@ function SelectDropdown({
         <select
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          className="appearance-none w-full bg-white border border-gray-300 rounded-md px-4 py-2.5 pr-9 text-xs lg:text-sm font-medium text-gray-600 cursor-pointer focus:outline-none focus:border-primary transition-colors"
+          className="appearance-none w-full bg-white border border-gray-300 rounded-lg px-4 py-3 pr-9 text-xs lg:text-sm font-medium text-gray-600 cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary transition-all"
         >
           {options.map((opt) => (
             <option key={opt.value} value={opt.value}>
@@ -133,32 +133,36 @@ export default function ProjectsListingPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="bg-white rounded-xl shadow-xl border border-gray-100 px-5 py-5 lg:px-8 lg:py-6 flex flex-col sm:flex-row items-end gap-4 lg:gap-5"
+            className="bg-white rounded-xl shadow-xl border border-gray-100 px-5 py-5 lg:px-8 lg:py-6"
           >
-            <SelectDropdown
-              label={PROJECTS_PAGE_CONTENT.filterLabels.projectType}
-              options={PROJECT_TYPE_OPTIONS}
-              value={projectType}
-              onChange={setProjectType}
-            />
-            <SelectDropdown
-              label={PROJECTS_PAGE_CONTENT.filterLabels.serviceCategory}
-              options={SERVICE_CATEGORY_OPTIONS}
-              value={serviceCategory}
-              onChange={setServiceCategory}
-            />
-            <SelectDropdown
-              label={PROJECTS_PAGE_CONTENT.filterLabels.location}
-              options={LOCATION_OPTIONS}
-              value={location}
-              onChange={setLocation}
-            />
-            <button
-              onClick={handleClearFilters}
-              className="btn-gradient text-white font-bold text-xs lg:text-sm tracking-wider px-7 py-2.5 rounded-md hover:opacity-90 transition-opacity cursor-pointer uppercase whitespace-nowrap shrink-0"
-            >
-              {PROJECTS_PAGE_CONTENT.clearButton}
-            </button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
+              <SelectDropdown
+                label={PROJECTS_PAGE_CONTENT.filterLabels.projectType}
+                options={PROJECT_TYPE_OPTIONS}
+                value={projectType}
+                onChange={setProjectType}
+              />
+              <SelectDropdown
+                label={PROJECTS_PAGE_CONTENT.filterLabels.serviceCategory}
+                options={SERVICE_CATEGORY_OPTIONS}
+                value={serviceCategory}
+                onChange={setServiceCategory}
+              />
+              <SelectDropdown
+                label={PROJECTS_PAGE_CONTENT.filterLabels.location}
+                options={LOCATION_OPTIONS}
+                value={location}
+                onChange={setLocation}
+              />
+              <div className="flex items-end">
+                <button
+                  onClick={handleClearFilters}
+                  className="w-full btn-gradient text-white font-bold text-xs lg:text-sm tracking-wider px-7 py-3 rounded-lg hover:opacity-90 transition-opacity cursor-pointer uppercase"
+                >
+                  {PROJECTS_PAGE_CONTENT.clearButton}
+                </button>
+              </div>
+            </div>
           </motion.div>
         </div>
       </section>
