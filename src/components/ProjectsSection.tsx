@@ -54,16 +54,16 @@ export default function ProjectsSection() {
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.5 }}
-          className="flex items-center justify-center gap-3 mb-8 lg:mb-10"
+          className="grid grid-cols-3 gap-2 max-w-xs mx-auto lg:max-w-none lg:flex lg:items-center lg:justify-center lg:gap-3 mb-8 lg:mb-10"
         >
           {CATEGORY_TABS.map((tab) => (
             <button
               key={tab.value}
               onClick={() => setActiveTab(tab.value)}
-              className={`text-[10px] lg:text-xs font-semibold tracking-wider px-4 lg:px-5 py-2 rounded-md border transition-all duration-300 ${
+              className={`text-[10px] lg:text-xs font-semibold tracking-wider px-3 lg:px-5 py-2.5 lg:py-2 rounded-md border text-center transition-all duration-300 ${
                 activeTab === tab.value
-                  ? "btn-gradient text-white border-transparent"
-                  : "border-gray-300 text-gray-600 hover:border-primary hover:text-primary"
+                  ? "btn-gradient text-white border-transparent shadow-md"
+                  : "border-gray-300 text-gray-600 hover:border-primary hover:text-primary bg-white"
               }`}
             >
               {tab.label}
