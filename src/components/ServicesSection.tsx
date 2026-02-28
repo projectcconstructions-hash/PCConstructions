@@ -1,5 +1,8 @@
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
+import { SERVICES_CONTENT } from "../data/content";
+import ArrowIcon from "./shared/ArrowIcon";
+import SectionDivider from "./shared/SectionDivider";
 
 interface ServiceItem {
   image: string;
@@ -99,23 +102,8 @@ function ServiceCard({
           to="#"
           className="inline-flex items-center gap-2 text-primary-dark font-semibold text-[11px] lg:text-xs border border-primary-dark rounded-md px-3.5 py-1.5 hover:bg-primary-dark hover:text-white transition-all duration-300"
         >
-          READ MORE
-          <span className="flex items-center gap-0.5">
-            <span className="w-4 h-[1.5px] bg-current inline-block" />
-            <svg
-              className="w-3.5 h-3.5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2.5"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M13 7l5 5m0 0l-5 5m5-5H6"
-              />
-            </svg>
-          </span>
+          {SERVICES_CONTENT.readMore}
+          <ArrowIcon withLine />
         </Link>
       </div>
     </motion.div>
@@ -125,7 +113,7 @@ function ServiceCard({
 export default function ServicesSection() {
   return (
     <section id="services" className="py-16 lg:py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-[28px] lg:px-8">
+      <div className="max-w-7xl mx-auto px-7 lg:px-8">
         <div className="text-center mb-10 lg:mb-14">
           <motion.span
             initial={{ opacity: 0, y: -10 }}
@@ -133,7 +121,7 @@ export default function ServicesSection() {
             viewport={{ once: true }}
             className="inline-block btn-gradient text-white text-[10px] lg:text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-md mb-4"
           >
-            OUR SERVICES
+            {SERVICES_CONTENT.badge}
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -142,7 +130,7 @@ export default function ServicesSection() {
             transition={{ delay: 0.1, duration: 0.6 }}
             className="text-2xl lg:text-4xl font-bold text-dark tracking-wide uppercase mb-4"
           >
-            COMPREHENSIVE CONSTRUCTION &amp; RENOVATION SOLUTIONS
+            {SERVICES_CONTENT.heading}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -151,18 +139,9 @@ export default function ServicesSection() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-gray-500 text-sm lg:text-base max-w-xl mx-auto italic leading-relaxed"
           >
-            Delivering expertly planned residential and commercial renovation
-            services with a focus on quality, precision, and long-term value.
+            {SERVICES_CONTENT.subtitle}
           </motion.p>
-          <div className="flex flex-col items-center mt-6 gap-2">
-            <span className="w-[2px] h-6 bg-primary" />
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 bg-primary rotate-45" />
-              <span className="w-2 h-2 bg-primary rotate-45" />
-              <span className="w-2 h-2 bg-primary rotate-45" />
-              <span className="w-2 h-2 bg-primary rotate-45" />
-            </div>
-          </div>
+          <SectionDivider />
         </div>
 
         <div className="grid grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6">
@@ -182,12 +161,17 @@ export default function ServicesSection() {
           >
             <div className="p-6 lg:p-8 text-white w-full">
               <h3 className="text-xl lg:text-2xl font-bold tracking-wide uppercase mb-2">
-                GET FREE ESTIMATE
+                {SERVICES_CONTENT.estimateCard.title}
               </h3>
               <p className="text-white/90 text-xs lg:text-sm leading-relaxed mb-4">
-                Request a no-obligation estimate
-                <br />
-                tailored to your project requirements.
+                {SERVICES_CONTENT.estimateCard.description
+                  .split("\n")
+                  .map((line, i) => (
+                    <span key={i}>
+                      {line}
+                      {i === 0 && <br />}
+                    </span>
+                  ))}
               </p>
             </div>
             <Link

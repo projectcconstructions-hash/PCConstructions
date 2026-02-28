@@ -1,4 +1,6 @@
 import { motion } from "framer-motion";
+import { TESTIMONIALS_CONTENT } from "../data/content";
+import SectionDivider from "./shared/SectionDivider";
 
 interface Testimonial {
   avatar: string;
@@ -49,8 +51,7 @@ function StarRating({ count }: { count: number }) {
 export default function TestimonialsSection() {
   return (
     <section id="testimonials" className="py-16 lg:py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-[28px] lg:px-8">
-        {/* Header */}
+      <div className="max-w-7xl mx-auto px-7 lg:px-8">
         <div className="text-center mb-10 lg:mb-14">
           <motion.span
             initial={{ opacity: 0, y: -10 }}
@@ -58,7 +59,7 @@ export default function TestimonialsSection() {
             viewport={{ once: true }}
             className="inline-block btn-gradient text-white text-[10px] lg:text-xs font-semibold tracking-widest uppercase px-4 py-1.5 rounded-md mb-4"
           >
-            TESTIMONIALS
+            {TESTIMONIALS_CONTENT.badge}
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -67,7 +68,7 @@ export default function TestimonialsSection() {
             transition={{ delay: 0.1, duration: 0.6 }}
             className="text-xl lg:text-3xl font-extrabold text-dark tracking-wide uppercase mb-4"
           >
-            TRUSTED BY OUR CLIENTS
+            {TESTIMONIALS_CONTENT.heading}
           </motion.h2>
           <motion.p
             initial={{ opacity: 0 }}
@@ -76,23 +77,11 @@ export default function TestimonialsSection() {
             transition={{ delay: 0.2, duration: 0.6 }}
             className="text-gray-500 text-xs lg:text-sm max-w-lg mx-auto leading-relaxed"
           >
-            Honest feedback reflecting our commitment to quality and
-            professionalism.
+            {TESTIMONIALS_CONTENT.subtitle}
           </motion.p>
-
-          {/* Decorative divider */}
-          <div className="flex flex-col items-center mt-5 gap-2">
-            <span className="w-[2px] h-6 bg-primary" />
-            <div className="flex items-center gap-1.5">
-              <span className="w-2 h-2 bg-primary rotate-45" />
-              <span className="w-2 h-2 bg-primary rotate-45" />
-              <span className="w-2 h-2 bg-primary rotate-45" />
-              <span className="w-2 h-2 bg-primary rotate-45" />
-            </div>
-          </div>
+          <SectionDivider />
         </div>
 
-        {/* Testimonial Cards */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
           {TESTIMONIALS.map((testimonial, index) => (
             <motion.div
@@ -103,9 +92,7 @@ export default function TestimonialsSection() {
               transition={{ delay: index * 0.15, duration: 0.6 }}
               className="bg-[#FFF7F2] rounded-2xl p-5 lg:p-8 relative overflow-hidden"
             >
-              {/* Card content */}
               <div className="flex gap-4 lg:gap-6 mb-5 lg:mb-6">
-                {/* Avatar - large square */}
                 <div className="shrink-0">
                   <img
                     src={testimonial.avatar}
@@ -114,7 +101,6 @@ export default function TestimonialsSection() {
                   />
                 </div>
 
-                {/* Text */}
                 <div className="flex-1 min-w-0 flex items-center">
                   <p className="text-gray-500 text-[11px] lg:text-sm leading-relaxed">
                     {testimonial.text}
@@ -122,7 +108,6 @@ export default function TestimonialsSection() {
                 </div>
               </div>
 
-              {/* Bottom row: stars, name/role, quote */}
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4 lg:gap-6">
                   <StarRating count={testimonial.rating} />
@@ -136,13 +121,11 @@ export default function TestimonialsSection() {
                   </div>
                 </div>
 
-                {/* Quote mark */}
                 <span className="text-4xl lg:text-5xl font-serif text-primary leading-none select-none">
                   &ldquo;
                 </span>
               </div>
 
-              {/* Bottom orange accent line */}
               <div className="absolute bottom-0 left-6 right-6 lg:left-8 lg:right-8 h-[3px] bg-gradient-to-r from-[#f19719] to-[#f16319] rounded-t" />
             </motion.div>
           ))}

@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { ABOUT_CONTENT } from "../data/content";
 import specializedExpertiseIcon from "../assets/icons/specialized-expertise.png";
 import precisionExecutionIcon from "../assets/icons/precision-execution.png";
 import reliableDeliveryIcon from "../assets/icons/reliable-delivery.png";
@@ -82,7 +83,7 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
 export default function AboutSection() {
   return (
     <section id="about" className="pt-16 lg:pt-24 pb-0 bg-[#FFF7F2]">
-      <div className="max-w-7xl mx-auto px-[28px] lg:px-8">
+      <div className="max-w-7xl mx-auto px-7 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-8 items-stretch">
           <motion.div
             initial={{ opacity: 0, x: 40 }}
@@ -92,21 +93,17 @@ export default function AboutSection() {
             className="lg:order-2"
           >
             <span className="inline-block text-xs font-bold tracking-[0.2em] uppercase mb-4 btn-gradient text-white px-4 py-1.5 rounded-full">
-              About Us
+              {ABOUT_CONTENT.badge}
             </span>
             <h2 className="text-2xl sm:text-3xl lg:text-[40px] font-extrabold text-dark leading-tight mb-5">
-              BUILDING WITH
+              {ABOUT_CONTENT.headingLine1}
               <br />
-              <span className="text-gradient italic">PRECISION & PURPOSE</span>
+              <span className="text-gradient italic">
+                {ABOUT_CONTENT.headingHighlight}
+              </span>
             </h2>
             <p className="text-gray-600 text-sm sm:text-[15px] leading-relaxed mb-8">
-              Project C Constructions is a premier construction and interior
-              design company specializing in commercial restaurant renovations,
-              custom sign boards, and residential upgrades. We deliver
-              well-planned, high-quality solutions aligned with your vision,
-              budget, and timeline. Our experienced team focuses on creating
-              functional, refined spaces through precision execution and
-              attention to detail — from concept to completion.
+              {ABOUT_CONTENT.description}
             </p>
 
             <div className="grid grid-cols-2 gap-3 lg:gap-5">
@@ -130,7 +127,7 @@ export default function AboutSection() {
             <div className="w-full h-[320px] sm:h-[420px] lg:h-full lg:min-h-[580px]">
               <img
                 src={aboutHouseImg}
-                alt="Modern construction by Project C"
+                alt={ABOUT_CONTENT.imageAlt}
                 className="w-full h-full object-cover"
               />
             </div>

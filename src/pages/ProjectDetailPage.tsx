@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { PROJECTS } from "../components/ProjectsSection";
+import { PROJECTS } from "../data/projects";
+import { PROJECT_DETAIL_CONTENT } from "../data/content";
 
 const INFO_CARDS = [
   {
@@ -21,7 +22,7 @@ const INFO_CARDS = [
       </svg>
     ),
     key: "scope",
-    title: "PROJECT SCOPE",
+    title: PROJECT_DETAIL_CONTENT.infoCards.scope,
   },
   {
     icon: (
@@ -40,7 +41,7 @@ const INFO_CARDS = [
       </svg>
     ),
     key: "area",
-    title: "AREA COVERED",
+    title: PROJECT_DETAIL_CONTENT.infoCards.area,
   },
   {
     icon: (
@@ -59,7 +60,7 @@ const INFO_CARDS = [
       </svg>
     ),
     key: "duration",
-    title: "PROJECT DURATION",
+    title: PROJECT_DETAIL_CONTENT.infoCards.duration,
   },
 ];
 
@@ -79,13 +80,13 @@ export default function ProjectDetailPage() {
       <div className="min-h-screen flex items-center justify-center pt-20">
         <div className="text-center">
           <h1 className="text-2xl font-bold text-dark mb-4">
-            Project Not Found
+            {PROJECT_DETAIL_CONTENT.notFoundTitle}
           </h1>
           <button
             onClick={() => navigate("/")}
             className="btn-gradient text-white px-6 py-2 rounded-md"
           >
-            Go Home
+            {PROJECT_DETAIL_CONTENT.goHome}
           </button>
         </div>
       </div>
@@ -129,7 +130,7 @@ export default function ProjectDetailPage() {
             {categoryLabel}
           </span>
           <h1 className="text-xl lg:text-4xl font-extrabold text-white uppercase tracking-wide mb-3">
-            {project.name} - Details
+            {project.name}
           </h1>
           <p className="text-white/80 text-[10px] lg:text-sm max-w-xl leading-relaxed">
             {project.description}

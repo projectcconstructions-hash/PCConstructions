@@ -1,47 +1,16 @@
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
+import { HERO_CONTENT } from "../data/content";
+import { useScrollToSection } from "../hooks/useScrollToSection";
 
-const SLIDES = [
-  {
-    image:
-      "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1920&q=80",
-    alt: "Construction professionals at work",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1920&q=80",
-    alt: "Commercial building construction",
-  },
-  {
-    image:
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1920&q=80",
-    alt: "Modern architecture project",
-  },
-];
-
-const AUTO_PLAY_INTERVAL = 5000;
+const { slides: SLIDES, autoPlayInterval: AUTO_PLAY_INTERVAL } = HERO_CONTENT;
 
 export default function Hero() {
   const [current, setCurrent] = useState(0);
-  const navigate = useNavigate();
-  const location = useLocation();
+  const scrollToSection = useScrollToSection();
 
   const scrollToContact = () => {
-    const doScroll = () => {
-      const el = document.getElementById("contact");
-      if (el) {
-        const offset = 80;
-        const y = el.getBoundingClientRect().top + window.scrollY - offset;
-        window.scrollTo({ top: y, behavior: "smooth" });
-      }
-    };
-    if (location.pathname !== "/") {
-      navigate("/");
-      setTimeout(doScroll, 500);
-    } else {
-      doScroll();
-    }
+    scrollToSection({ path: "/", hash: "contact" });
   };
 
   const next = useCallback(
@@ -74,7 +43,7 @@ export default function Hero() {
         </motion.div>
       </AnimatePresence>
 
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-[28px] lg:px-8 pb-12 lg:pb-0 pt-20 lg:pt-24">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-7 lg:px-8 pb-12 lg:pb-0 pt-20 lg:pt-24">
         <div className="max-w-2xl">
           <motion.p
             initial={{ opacity: 0, x: -20 }}
@@ -82,7 +51,10 @@ export default function Hero() {
             transition={{ delay: 0.3, duration: 0.6 }}
             className="text-white/90 text-[14px] lg:text-[40px] font-semibold tracking-[0.15em] lg:tracking-[0.2em] mb-1 lg:mb-3"
           >
-            BUILD BETTER <span className="text-gradient italic">SPACES</span>
+            {HERO_CONTENT.tagline}{" "}
+            <span className="text-gradient italic">
+              {HERO_CONTENT.taglineHighlight}
+            </span>
           </motion.p>
 
           <motion.h1
@@ -91,7 +63,7 @@ export default function Hero() {
             transition={{ delay: 0.5, duration: 0.6 }}
             className="text-[24px] lg:text-[70px] font-bold text-white leading-[1.15] mb-2 lg:mb-4"
           >
-            RESIDENTIAL & COMMERCIAL
+            {HERO_CONTENT.heading}
           </motion.h1>
 
           <motion.p
@@ -100,7 +72,7 @@ export default function Hero() {
             transition={{ delay: 0.7, duration: 0.6 }}
             className="text-white text-[14px] font-semibold lg:text-[40px] tracking-[0.15em] mb-6 lg:mb-10"
           >
-            PROJECT C CONSTRUCTIONS
+            {HERO_CONTENT.subheading}
           </motion.p>
 
           <motion.div
@@ -113,7 +85,7 @@ export default function Hero() {
               onClick={scrollToContact}
               className="btn-gradient inline-flex items-center justify-center gap-2 text-white font-semibold text-[11px] lg:text-sm tracking-wider px-4 lg:px-7 py-2.5 lg:py-3.5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 border-none cursor-pointer"
             >
-              GET FREE ESTIMATE
+              {HERO_CONTENT.ctaPrimary}
               <span className="flex items-center gap-1">
                 <span className="w-4 h-[2px] bg-white inline-block lg:hidden" />
                 <svg
@@ -135,7 +107,7 @@ export default function Hero() {
               onClick={scrollToContact}
               className="inline-flex items-center justify-center text-white lg:bg-white/10 lg:hover:bg-white lg:hover:text-dark hover:text-primary font-semibold text-[11px] lg:text-sm tracking-wider px-4 lg:px-7 py-2.5 lg:py-3.5 lg:rounded-[5px] transition-all duration-300 bg-transparent border-none cursor-pointer"
             >
-              CONTACT US
+              {HERO_CONTENT.ctaSecondary}
             </button>
           </motion.div>
         </div>

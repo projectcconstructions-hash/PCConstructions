@@ -1,19 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-
-const PROJECT_TYPES = [
-  "Residential Construction",
-  "Commercial Construction",
-  "Interior Renovation",
-  "Basement Finishing",
-  "Kitchen Remodeling",
-  "Bathroom Remodeling",
-  "Flooring",
-  "Decks & Fences",
-  "Interlocking",
-  "Sign Boards",
-  "Other",
-];
+import { CONTACT_CONTENT, SITE } from "../data/content";
+import ArrowIcon from "./shared/ArrowIcon";
 
 export default function ContactSection() {
   const [formData, setFormData] = useState({
@@ -39,7 +27,7 @@ export default function ContactSection() {
 
   return (
     <section id="contact" className="py-16 lg:py-24 bg-[#FFF7F2]">
-      <div className="max-w-7xl mx-auto px-[28px] lg:px-8">
+      <div className="max-w-7xl mx-auto px-7 lg:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-stretch">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
@@ -49,16 +37,13 @@ export default function ContactSection() {
             className="flex flex-col"
           >
             <span className="self-start btn-gradient text-white text-[10px] lg:text-xs font-semibold tracking-widest uppercase px-5 py-2 rounded-md mb-5">
-              CONTACT US
+              {CONTACT_CONTENT.badge}
             </span>
             <h2 className="text-2xl lg:text-[34px] font-extrabold text-dark tracking-wide uppercase leading-tight mb-4">
-              LET&apos;S BUILD SOMETHING EXCEPTIONAL
+              {CONTACT_CONTENT.heading}
             </h2>
             <p className="text-gray-400 text-xs lg:text-sm leading-relaxed mb-8 max-w-md">
-              Have a project in mind? Get in touch with Project C Constructions
-              to discuss your residential or commercial construction needs. Our
-              team is ready to guide you with expert advice, clear timelines,
-              and quality-driven solutions.
+              {CONTACT_CONTENT.description}
             </p>
 
             <div>
@@ -82,10 +67,10 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <p className="text-gray-400 text-[10px] lg:text-xs">
-                      Mobile
+                      {CONTACT_CONTENT.labels.mobile}
                     </p>
                     <p className="text-dark font-bold text-xs lg:text-sm">
-                      +91 99999 77777
+                      {SITE.phone}
                     </p>
                   </div>
                 </div>
@@ -107,10 +92,10 @@ export default function ContactSection() {
                   </div>
                   <div>
                     <p className="text-gray-400 text-[10px] lg:text-xs">
-                      Email
+                      {CONTACT_CONTENT.labels.email}
                     </p>
                     <p className="text-dark font-bold text-xs lg:text-sm">
-                      info@projectc.com
+                      {SITE.email}
                     </p>
                   </div>
                 </div>
@@ -129,10 +114,10 @@ export default function ContactSection() {
                 </div>
                 <div>
                   <p className="text-gray-400 text-[10px] lg:text-xs">
-                    Address
+                    {CONTACT_CONTENT.labels.address}
                   </p>
                   <p className="text-dark font-bold text-xs lg:text-sm">
-                    Address Line 1, Complete Address, 999222
+                    {SITE.address.full}
                   </p>
                 </div>
               </div>
@@ -152,7 +137,7 @@ export default function ContactSection() {
             <input
               type="text"
               name="name"
-              placeholder="Your Name"
+              placeholder={CONTACT_CONTENT.placeholders.name}
               value={formData.name}
               onChange={handleChange}
               className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors"
@@ -160,7 +145,7 @@ export default function ContactSection() {
             <input
               type="email"
               name="email"
-              placeholder="Email Address"
+              placeholder={CONTACT_CONTENT.placeholders.email}
               value={formData.email}
               onChange={handleChange}
               className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors"
@@ -168,7 +153,7 @@ export default function ContactSection() {
             <input
               type="tel"
               name="mobile"
-              placeholder="Mobile Number"
+              placeholder={CONTACT_CONTENT.placeholders.mobile}
               value={formData.mobile}
               onChange={handleChange}
               className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors"
@@ -188,9 +173,9 @@ export default function ContactSection() {
               }}
             >
               <option value="" disabled>
-                Project Type
+                {CONTACT_CONTENT.placeholders.projectType}
               </option>
-              {PROJECT_TYPES.map((type) => (
+              {CONTACT_CONTENT.projectTypes.map((type) => (
                 <option key={type} value={type}>
                   {type}
                 </option>
@@ -199,14 +184,14 @@ export default function ContactSection() {
             <input
               type="text"
               name="subject"
-              placeholder="Subject"
+              placeholder={CONTACT_CONTENT.placeholders.subject}
               value={formData.subject}
               onChange={handleChange}
               className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors"
             />
             <textarea
               name="message"
-              placeholder="Type Your Message"
+              placeholder={CONTACT_CONTENT.placeholders.message}
               value={formData.message}
               onChange={handleChange}
               rows={4}
@@ -217,20 +202,8 @@ export default function ContactSection() {
               type="submit"
               className="w-full btn-gradient text-white font-semibold text-sm tracking-wider py-3.5 rounded-lg flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300"
             >
-              SUBMIT MESSAGE
-              <svg
-                className="w-4 h-4"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M13 7l5 5m0 0l-5 5m5-5H6"
-                />
-              </svg>
+              {CONTACT_CONTENT.submitButton}
+              <ArrowIcon className="w-4 h-4" />
             </button>
           </motion.form>
         </div>
