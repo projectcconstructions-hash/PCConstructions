@@ -123,7 +123,7 @@ export default function ContactSection() {
             <div>
               <div className="grid grid-cols-1 sm:grid-cols-2">
                 <div className="py-5 sm:pr-5 flex items-center gap-3">
-                  <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-white border border-white flex items-center justify-center shrink-0 shadow-sm">
+                  <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-white flex items-center justify-center shrink-0">
                     <svg
                       className="w-4 h-4 text-primary-dark"
                       fill="none"
@@ -148,7 +148,7 @@ export default function ContactSection() {
                   </div>
                 </div>
                 <div className="py-5 sm:pl-5 flex items-center gap-3">
-                  <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-white border border-white flex items-center justify-center shrink-0 shadow-sm">
+                  <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-white flex items-center justify-center shrink-0">
                     <svg
                       className="w-4 h-4 text-primary-dark"
                       fill="none"
@@ -175,7 +175,7 @@ export default function ContactSection() {
               </div>
 
               <div className="py-5 flex items-center gap-3">
-                <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-white border border-white flex items-center justify-center shrink-0 shadow-sm">
+                <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-white flex items-center justify-center shrink-0">
                   <svg
                     className="w-4 h-4 text-primary-dark"
                     fill="currentColor"

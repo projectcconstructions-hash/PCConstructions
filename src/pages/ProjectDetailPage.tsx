@@ -126,17 +126,20 @@ export default function ProjectDetailPage() {
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartX.current = e.touches[0].clientX;
+    touchEndX.current = e.touches[0].clientX;
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
     touchEndX.current = e.touches[0].clientX;
   };
 
-  const handleTouchEnd = () => {
+  const handleTouchEnd = (e: React.TouchEvent) => {
     const diff = touchStartX.current - touchEndX.current;
     if (Math.abs(diff) > 50) {
       if (diff > 0) lightboxNext();
       else lightboxPrev();
+    } else if (e.target === e.currentTarget) {
+      closeLightbox();
     }
   };
 
@@ -347,8 +350,16 @@ export default function ProjectDetailPage() {
           >
             {/* Close button */}
             <button
-              onClick={closeLightbox}
-              className="absolute top-4 right-4 lg:top-6 lg:right-6 z-10 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors"
+              onClick={(e) => {
+                e.stopPropagation();
+                closeLightbox();
+              }}
+              onTouchEnd={(e) => {
+                e.stopPropagation();
+                e.preventDefault();
+                closeLightbox();
+              }}
+              className="absolute top-4 right-4 lg:top-6 lg:right-6 z-10 w-12 h-12 lg:w-12 lg:h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors"
               aria-label="Close fullscreen"
             >
               <svg
