@@ -121,9 +121,8 @@ export default function ContactSection() {
             </p>
 
             <div>
-              <div className="border-t border-gray-200" />
               <div className="grid grid-cols-1 sm:grid-cols-2">
-                <div className="py-5 sm:pr-5 flex items-center gap-3 sm:border-r border-b sm:border-b-0 border-gray-200">
+                <div className="py-5 sm:pr-5 flex items-center gap-3">
                   <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-white border border-white flex items-center justify-center shrink-0 shadow-sm">
                     <svg
                       className="w-4 h-4 text-primary-dark"
@@ -175,7 +174,6 @@ export default function ContactSection() {
                 </div>
               </div>
 
-              <div className="border-t border-gray-200" />
               <div className="py-5 flex items-center gap-3">
                 <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-white border border-white flex items-center justify-center shrink-0 shadow-sm">
                   <svg
