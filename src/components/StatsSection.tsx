@@ -49,19 +49,19 @@ interface StatItem {
 const STATS: StatItem[] = [
   {
     icon: specializedExpertiseIcon,
-    value: 100,
+    value: 60,
     suffix: "+",
     label: "Projects Completed",
   },
   {
     icon: yearsExperienceIcon,
-    value: 15,
+    value: 7,
     suffix: "+",
     label: "Years of Experience",
   },
   {
     icon: sqFtRenovatedIcon,
-    value: 500,
+    value: 120,
     suffix: "K+",
     label: "Sq. Ft. Renovated",
   },

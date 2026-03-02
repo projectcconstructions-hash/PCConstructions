@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import toast from "react-hot-toast";
 import { CONTACT_CONTENT, SITE } from "../data/content";
 import ArrowIcon from "./shared/ArrowIcon";
 
@@ -12,6 +13,9 @@ export default function ContactSection() {
     subject: "",
     message: "",
   });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (
     e: React.ChangeEvent<
@@ -19,10 +23,80 @@ export default function ContactSection() {
     >,
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) {
+      setErrors({ ...errors, [e.target.name]: "" });
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.name.trim()) newErrors.name = "Name is required";
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Enter a valid email address";
+    }
+    if (!formData.mobile.trim()) {
+      newErrors.mobile = "Mobile number is required";
+    } else if (!/^[+]?[\d\s()-]{7,15}$/.test(formData.mobile)) {
+      newErrors.mobile = "Enter a valid mobile number";
+    }
+    if (!formData.projectType) newErrors.projectType = "Select a project type";
+    if (!formData.subject.trim()) newErrors.subject = "Subject is required";
+    if (!formData.message.trim()) newErrors.message = "Message is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validate()) {
+      toast.error("Please fill in all required fields correctly.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      const response = await fetch(
+        "https://formsubmit.co/ajax/info@pcconstructions.ca",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+          },
+          body: JSON.stringify({
+            name: formData.name,
+            email: formData.email,
+            mobile: formData.mobile,
+            "Project Type": formData.projectType,
+            subject: formData.subject,
+            message: formData.message,
+            _subject: `New Contact Form: ${formData.subject}`,
+            _template: "table",
+          }),
+        },
+      );
+
+      if (response.ok) {
+        toast.success("Your message has been sent to info@pcconstructions.ca");
+        setFormData({
+          name: "",
+          email: "",
+          mobile: "",
+          projectType: "",
+          subject: "",
+          message: "",
+        });
+        setErrors({});
+      } else {
+        toast.error("Failed to send message. Please try again.");
+      }
+    } catch {
+      toast.error("Network error. Please try again later.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -48,8 +122,8 @@ export default function ContactSection() {
 
             <div>
               <div className="border-t border-gray-200" />
-              <div className="grid grid-cols-2">
-                <div className="py-5 pr-5 flex items-center gap-3 border-r border-gray-200">
+              <div className="grid grid-cols-1 sm:grid-cols-2">
+                <div className="py-5 sm:pr-5 flex items-center gap-3 sm:border-r border-b sm:border-b-0 border-gray-200">
                   <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-white border border-white flex items-center justify-center shrink-0 shadow-sm">
                     <svg
                       className="w-4 h-4 text-primary-dark"
@@ -65,7 +139,7 @@ export default function ContactSection() {
                       />
                     </svg>
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-gray-400 text-[10px] lg:text-xs">
                       {CONTACT_CONTENT.labels.mobile}
                     </p>
@@ -74,7 +148,7 @@ export default function ContactSection() {
                     </p>
                   </div>
                 </div>
-                <div className="py-5 pl-5 flex items-center gap-3">
+                <div className="py-5 sm:pl-5 flex items-center gap-3">
                   <div className="w-10 h-10 lg:w-11 lg:h-11 rounded-full bg-white border border-white flex items-center justify-center shrink-0 shadow-sm">
                     <svg
                       className="w-4 h-4 text-primary-dark"
@@ -90,11 +164,11 @@ export default function ContactSection() {
                       />
                     </svg>
                   </div>
-                  <div>
+                  <div className="min-w-0">
                     <p className="text-gray-400 text-[10px] lg:text-xs">
                       {CONTACT_CONTENT.labels.email}
                     </p>
-                    <p className="text-dark font-bold text-xs lg:text-sm">
+                    <p className="text-dark font-bold text-xs lg:text-sm break-all">
                       {SITE.email}
                     </p>
                   </div>
@@ -140,29 +214,38 @@ export default function ContactSection() {
               placeholder={CONTACT_CONTENT.placeholders.name}
               value={formData.name}
               onChange={handleChange}
-              className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors"
+              className={`w-full bg-white border ${errors.name ? "border-red-500" : "border-gray-200"} rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors`}
             />
+            {errors.name && (
+              <p className="text-red-500 text-xs -mt-2">{errors.name}</p>
+            )}
             <input
               type="email"
               name="email"
               placeholder={CONTACT_CONTENT.placeholders.email}
               value={formData.email}
               onChange={handleChange}
-              className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors"
+              className={`w-full bg-white border ${errors.email ? "border-red-500" : "border-gray-200"} rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors`}
             />
+            {errors.email && (
+              <p className="text-red-500 text-xs -mt-2">{errors.email}</p>
+            )}
             <input
               type="tel"
               name="mobile"
               placeholder={CONTACT_CONTENT.placeholders.mobile}
               value={formData.mobile}
               onChange={handleChange}
-              className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors"
+              className={`w-full bg-white border ${errors.mobile ? "border-red-500" : "border-gray-200"} rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors`}
             />
+            {errors.mobile && (
+              <p className="text-red-500 text-xs -mt-2">{errors.mobile}</p>
+            )}
             <select
               name="projectType"
               value={formData.projectType}
               onChange={handleChange}
-              className={`w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors appearance-none ${
+              className={`w-full bg-white border ${errors.projectType ? "border-red-500" : "border-gray-200"} rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-primary transition-colors appearance-none ${
                 formData.projectType ? "text-dark" : "text-gray-400"
               }`}
               style={{
@@ -181,29 +264,39 @@ export default function ContactSection() {
                 </option>
               ))}
             </select>
+            {errors.projectType && (
+              <p className="text-red-500 text-xs -mt-2">{errors.projectType}</p>
+            )}
             <input
               type="text"
               name="subject"
               placeholder={CONTACT_CONTENT.placeholders.subject}
               value={formData.subject}
               onChange={handleChange}
-              className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors"
+              className={`w-full bg-white border ${errors.subject ? "border-red-500" : "border-gray-200"} rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors`}
             />
+            {errors.subject && (
+              <p className="text-red-500 text-xs -mt-2">{errors.subject}</p>
+            )}
             <textarea
               name="message"
               placeholder={CONTACT_CONTENT.placeholders.message}
               value={formData.message}
               onChange={handleChange}
               rows={4}
-              className="w-full bg-white border border-gray-200 rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors resize-none"
+              className={`w-full bg-white border ${errors.message ? "border-red-500" : "border-gray-200"} rounded-lg px-4 py-3 text-sm text-dark placeholder:text-gray-400 focus:outline-none focus:border-primary transition-colors resize-none`}
             />
+            {errors.message && (
+              <p className="text-red-500 text-xs -mt-2">{errors.message}</p>
+            )}
             <div className="flex-1" />
             <button
               type="submit"
-              className="w-full btn-gradient text-white font-semibold text-sm tracking-wider py-3.5 rounded-lg flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300"
+              disabled={isSubmitting}
+              className="w-full btn-gradient text-white font-semibold text-sm tracking-wider py-3.5 rounded-lg flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 disabled:opacity-60 disabled:cursor-not-allowed"
             >
-              {CONTACT_CONTENT.submitButton}
-              <ArrowIcon className="w-4 h-4" />
+              {isSubmitting ? "SENDING..." : CONTACT_CONTENT.submitButton}
+              {!isSubmitting && <ArrowIcon className="w-4 h-4" />}
             </button>
           </motion.form>
         </div>

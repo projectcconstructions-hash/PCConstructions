@@ -30,11 +30,11 @@ export default function Pagination({
   };
 
   return (
-    <div className="flex items-center justify-center gap-2.5 mt-12 lg:mt-16">
+    <div className="flex flex-wrap items-center justify-center gap-1.5 sm:gap-2.5 mt-10 lg:mt-16">
       <button
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="px-5 py-3 lg:px-6 lg:py-3.5 text-xs lg:text-sm font-bold tracking-wider rounded-md border-2 border-primary btn-gradient text-white cursor-pointer transition-all duration-300 hover:opacity-90"
+        className="px-3 py-2.5 sm:px-5 sm:py-3 lg:px-6 lg:py-3.5 text-[10px] sm:text-xs lg:text-sm font-bold tracking-wider rounded-md border-2 border-primary btn-gradient text-white cursor-pointer transition-all duration-300 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {previousLabel}
       </button>
@@ -42,15 +42,15 @@ export default function Pagination({
         page === "..." ? (
           <span
             key={`dots-${idx}`}
-            className="w-11 h-11 lg:w-12 lg:h-12 text-sm lg:text-base font-bold text-dark border-2 border-primary rounded-md flex items-center justify-center tracking-widest select-none"
+            className="w-8 h-8 sm:w-11 sm:h-11 lg:w-12 lg:h-12 text-xs sm:text-sm lg:text-base font-bold text-dark border-2 border-primary rounded-md flex items-center justify-center tracking-widest select-none"
           >
-            ....
+            ...
           </span>
         ) : (
           <button
             key={page}
             onClick={() => onPageChange(page as number)}
-            className={`w-11 h-11 lg:w-12 lg:h-12 text-sm lg:text-base font-bold rounded-md border-2 border-primary transition-all duration-300 cursor-pointer ${
+            className={`w-8 h-8 sm:w-11 sm:h-11 lg:w-12 lg:h-12 text-xs sm:text-sm lg:text-base font-bold rounded-md border-2 border-primary transition-all duration-300 cursor-pointer ${
               currentPage === page
                 ? "btn-gradient text-white"
                 : "bg-white text-dark hover:btn-gradient hover:text-white"
@@ -63,7 +63,7 @@ export default function Pagination({
       <button
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="px-5 py-3 lg:px-6 lg:py-3.5 text-xs lg:text-sm font-bold tracking-wider rounded-md border-2 border-primary bg-white text-dark cursor-pointer transition-all duration-300 hover:btn-gradient hover:text-white"
+        className="px-3 py-2.5 sm:px-5 sm:py-3 lg:px-6 lg:py-3.5 text-[10px] sm:text-xs lg:text-sm font-bold tracking-wider rounded-md border-2 border-primary bg-white text-dark cursor-pointer transition-all duration-300 hover:btn-gradient hover:text-white disabled:opacity-50 disabled:cursor-not-allowed"
       >
         {nextLabel}
       </button>

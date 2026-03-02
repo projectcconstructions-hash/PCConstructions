@@ -1,34 +1,28 @@
-export interface BlogPostSummary {
+﻿export interface BlogPostSummary {
   id: number;
   slug: string;
   image: string;
   date: { day: string; month: string };
   category: string;
   title: string;
-  comments: number;
 }
-
 export interface BlogPostFull extends BlogPostSummary {
   intro: string;
   content: { heading: string; paragraphs: string[]; bullets?: string[] }[];
 }
-
 export interface HomeBlogPost {
   image: string;
   date: { day: string; month: string };
   author: string;
-  comments: number;
   title: string;
   slug: string;
 }
-
 export const HOME_BLOGS: HomeBlogPost[] = [
   {
     image:
       "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=600&q=80",
     date: { day: "07", month: "FEB" },
     author: "AUTHOR 1",
-    comments: 2,
     title: "PLANNING YOUR RENOVATION: WHAT TO CONSIDER BEFORE YOU BUILD",
     slug: "top-renovation-trends-transforming-modern-homes",
   },
@@ -37,12 +31,10 @@ export const HOME_BLOGS: HomeBlogPost[] = [
       "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=600&q=80",
     date: { day: "06", month: "FEB" },
     author: "AUTHOR 2",
-    comments: 3,
     title: "KEY CONSTRUCTION TRENDS EVERY PROPERTY OWNER SHOULD KNOW",
     slug: "how-to-plan-a-successful-home-renovation-budget",
   },
 ];
-
 export const ALL_BLOGS: BlogPostSummary[] = [
   {
     id: 1,
@@ -52,7 +44,6 @@ export const ALL_BLOGS: BlogPostSummary[] = [
     date: { day: "20", month: "Feb" },
     category: "INTERIOR",
     title: "TOP RENOVATION TRENDS TRANSFORMING MODERN HOMES",
-    comments: 2,
   },
   {
     id: 2,
@@ -62,7 +53,6 @@ export const ALL_BLOGS: BlogPostSummary[] = [
     date: { day: "20", month: "Feb" },
     category: "CONSTRUCTION",
     title: "HOW TO PLAN A SUCCESSFUL HOME RENOVATION: BUDGET",
-    comments: 2,
   },
   {
     id: 3,
@@ -72,7 +62,6 @@ export const ALL_BLOGS: BlogPostSummary[] = [
     date: { day: "20", month: "Feb" },
     category: "INTERIOR",
     title: "COMMERCIAL RENOVATION GUIDE: WHAT BUSINESS OWNERS NEED",
-    comments: 2,
   },
   {
     id: 4,
@@ -82,7 +71,6 @@ export const ALL_BLOGS: BlogPostSummary[] = [
     date: { day: "20", month: "Feb" },
     category: "INTERIOR",
     title: "TOP RENOVATION TRENDS TRANSFORMING MODERN HOMES",
-    comments: 2,
   },
   {
     id: 5,
@@ -92,7 +80,6 @@ export const ALL_BLOGS: BlogPostSummary[] = [
     date: { day: "20", month: "Feb" },
     category: "CONSTRUCTION",
     title: "HOW TO PLAN A SUCCESSFUL HOME RENOVATION: BUDGET",
-    comments: 2,
   },
   {
     id: 6,
@@ -102,7 +89,6 @@ export const ALL_BLOGS: BlogPostSummary[] = [
     date: { day: "20", month: "Feb" },
     category: "INTERIOR",
     title: "COMMERCIAL RENOVATION GUIDE: WHAT BUSINESS OWNERS NEED",
-    comments: 2,
   },
   {
     id: 7,
@@ -112,7 +98,6 @@ export const ALL_BLOGS: BlogPostSummary[] = [
     date: { day: "20", month: "Feb" },
     category: "INTERIOR",
     title: "TOP RENOVATION TRENDS TRANSFORMING MODERN HOMES",
-    comments: 2,
   },
   {
     id: 8,
@@ -122,7 +107,6 @@ export const ALL_BLOGS: BlogPostSummary[] = [
     date: { day: "20", month: "Feb" },
     category: "CONSTRUCTION",
     title: "HOW TO PLAN A SUCCESSFUL HOME RENOVATION: BUDGET",
-    comments: 2,
   },
   {
     id: 9,
@@ -132,10 +116,8 @@ export const ALL_BLOGS: BlogPostSummary[] = [
     date: { day: "20", month: "Feb" },
     category: "INTERIOR",
     title: "COMMERCIAL RENOVATION GUIDE: WHAT BUSINESS OWNERS NEED",
-    comments: 2,
   },
 ];
-
 export const BLOG_ARTICLES: BlogPostFull[] = [
   {
     id: 1,
@@ -145,7 +127,6 @@ export const BLOG_ARTICLES: BlogPostFull[] = [
     date: { day: "20", month: "Feb" },
     category: "INTERIOR",
     title: "TOP RENOVATION TRENDS TRANSFORMING MODERN HOMES",
-    comments: 2,
     intro:
       "Home renovation continues to evolve as homeowners seek smarter layouts, energy efficiency, and refined aesthetics. In 2026, the focus has shifted toward functionality, sustainability, and long-term value. Whether planning a full renovation or selective upgrades, understanding the latest trends can help you make informed decisions.",
     content: [
@@ -177,7 +158,7 @@ export const BLOG_ARTICLES: BlogPostFull[] = [
       {
         heading: "3. Sustainable & Energy-Efficient Upgrades",
         paragraphs: [
-          "Sustainability is no longer optional — it's a priority. Homeowners are choosing:",
+          "Sustainability is no longer optional â€” it's a priority. Homeowners are choosing:",
         ],
         bullets: [
           "Energy-efficient windows and doors",
@@ -261,7 +242,6 @@ export const BLOG_ARTICLES: BlogPostFull[] = [
     date: { day: "20", month: "Feb" },
     category: "CONSTRUCTION",
     title: "HOW TO PLAN A SUCCESSFUL HOME RENOVATION: BUDGET",
-    comments: 2,
     intro:
       "Planning a home renovation budget is one of the most critical steps to ensure your project runs smoothly. Without a clear financial roadmap, costs can easily spiral out of control. Here's a comprehensive guide to managing your renovation budget effectively.",
     content: [
@@ -315,7 +295,6 @@ export const BLOG_ARTICLES: BlogPostFull[] = [
     date: { day: "20", month: "Feb" },
     category: "INTERIOR",
     title: "COMMERCIAL RENOVATION GUIDE: WHAT BUSINESS OWNERS NEED",
-    comments: 2,
     intro:
       "Commercial renovations require careful planning, compliance with regulations, and a clear understanding of business needs. Whether you're updating a retail space, restaurant, or office, this guide covers the essentials every business owner should know.",
     content: [

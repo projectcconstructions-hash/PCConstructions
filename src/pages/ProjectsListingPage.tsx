@@ -10,7 +10,7 @@ import {
 import { PROJECTS_PAGE_CONTENT } from "../data/content";
 import Pagination from "../components/shared/Pagination";
 
-const { totalPages: TOTAL_PAGES } = PROJECTS_PAGE_CONTENT;
+const PER_PAGE = PROJECTS_PAGE_CONTENT.perPage;
 
 function SelectDropdown({
   label,
@@ -75,8 +75,15 @@ export default function ProjectsListingPage() {
       !p.category.includes(serviceCategory as "commercial" | "residential")
     )
       return false;
+    if (projectType !== "all" && p.type !== projectType) return false;
     return true;
   });
+
+  const totalPages = Math.max(1, Math.ceil(filteredProjects.length / PER_PAGE));
+  const paginatedProjects = filteredProjects.slice(
+    (currentPage - 1) * PER_PAGE,
+    currentPage * PER_PAGE,
+  );
 
   const handleClearFilters = () => {
     setProjectType("all");
@@ -86,7 +93,7 @@ export default function ProjectsListingPage() {
   };
 
   const handlePageChange = (page: number) => {
-    if (page < 1 || page > TOTAL_PAGES) return;
+    if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -172,7 +179,7 @@ export default function ProjectsListingPage() {
         <div className="max-w-7xl mx-auto px-7 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-5">
             <AnimatePresence mode="popLayout">
-              {filteredProjects.map((project, index) => {
+              {paginatedProjects.map((project, index) => {
                 const categoryLabel = project.category.includes("commercial")
                   ? "CONSTRUCTION"
                   : "INTERIOR";
@@ -231,7 +238,7 @@ export default function ProjectsListingPage() {
 
           <Pagination
             currentPage={currentPage}
-            totalPages={TOTAL_PAGES}
+            totalPages={totalPages}
             onPageChange={handlePageChange}
             previousLabel={PROJECTS_PAGE_CONTENT.previous}
             nextLabel={PROJECTS_PAGE_CONTENT.next}

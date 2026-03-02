@@ -3,15 +3,15 @@ export const SITE = {
   logoText: "PROJECT",
   logoHighlight: "C",
   copyright: "Copyright Project C. All Rights Reserved.",
-  phone: "+91 99999 77777",
-  email: "info@projectc.com",
-  whatsappNumber: "919999999999",
-  phoneUri: "tel:+919999999999",
+  phone: "+1 (647) 573-9876",
+  email: "info@pcconstructions.ca",
+  whatsappNumber: "16475739876",
+  phoneUri: "tel:+16475739876",
   address: {
-    line1: "Address Line 1",
-    line2: "Complete Address",
-    pincode: "999222",
-    full: "Address Line 1, Complete Address, 999222",
+    line1: "3434 Eglinton Ave E",
+    line2: "Scarborough, ON M1J 2J1",
+    pincode: "",
+    full: "3434 Eglinton Ave E, Scarborough, ON M1J 2J1",
   },
 };
 
@@ -39,7 +39,6 @@ export const HERO_CONTENT = {
   heading: "RESIDENTIAL & COMMERCIAL",
   subheading: "PROJECT C CONSTRUCTIONS",
   ctaPrimary: "GET FREE ESTIMATE",
-  ctaSecondary: "CONTACT US",
 };
 
 export const ABOUT_CONTENT = {
@@ -61,11 +60,6 @@ export const SERVICES_CONTENT = {
     description:
       "Request a no-obligation estimate\ntailored to your project requirements.",
   },
-  readMore: "READ MORE",
-};
-
-export const STATS_CONTENT = {
-  animationDuration: 2000,
 };
 
 export const PROJECTS_CONTENT = {
@@ -143,7 +137,7 @@ export const PROJECTS_PAGE_CONTENT = {
     location: "Location",
   },
   clearButton: "CLEAR",
-  totalPages: 10,
+  perPage: 8,
   previous: "PREVIOUS",
   next: "NEXT",
 };
@@ -152,7 +146,7 @@ export const BLOGS_PAGE_CONTENT = {
   heroTitle: "BLOGS",
   heroSubtitle:
     "Insights, renovation ideas, and expert guidance from the world of construction and interior solutions.",
-  totalPages: 10,
+  perPage: 6,
   previous: "PREVIOUS",
   next: "NEXT",
 };

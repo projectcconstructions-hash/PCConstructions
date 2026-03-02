@@ -21,13 +21,17 @@ export default function Footer() {
             <div className="space-y-1 mb-5">
               <p className="text-white text-sm">{SITE.address.line1}</p>
               <p className="text-white text-sm">{SITE.address.line2}</p>
-              <p className="text-white text-sm">{SITE.address.pincode}</p>
+              {SITE.address.pincode && (
+                <p className="text-white text-sm">{SITE.address.pincode}</p>
+              )}
             </div>
             <div className="flex items-center gap-2.5">
               {FOOTER_SOCIAL_LINKS.map((s) => (
                 <a
                   key={s.label}
-                  href="#"
+                  href={s.url || "#"}
+                  target={s.url ? "_blank" : undefined}
+                  rel={s.url ? "noopener noreferrer" : undefined}
                   className="w-9 h-9 rounded-full flex items-center justify-center hover:opacity-80 transition-opacity"
                   style={{ backgroundColor: s.color }}
                   aria-label={s.label}
@@ -96,7 +100,9 @@ export default function Footer() {
               {INSTAGRAM_IMAGES.map((img, i) => (
                 <a
                   key={i}
-                  href="#"
+                  href="https://www.instagram.com/project_c_constructions?igsh=MW81cDFlbGdnYmVtMQ%3D%3D&utm_source=qr"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="aspect-square rounded-md overflow-hidden hover:opacity-80 transition-opacity"
                 >
                   <img

@@ -5,7 +5,7 @@ import { ALL_BLOGS } from "../data/blogs";
 import { BLOGS_PAGE_CONTENT } from "../data/content";
 import Pagination from "../components/shared/Pagination";
 
-const { totalPages: TOTAL_PAGES } = BLOGS_PAGE_CONTENT;
+const PER_PAGE = BLOGS_PAGE_CONTENT.perPage;
 
 export default function BlogsPage() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -14,10 +14,14 @@ export default function BlogsPage() {
     window.scrollTo(0, 0);
   }, []);
 
-  const blogs = ALL_BLOGS;
+  const totalPages = Math.max(1, Math.ceil(ALL_BLOGS.length / PER_PAGE));
+  const blogs = ALL_BLOGS.slice(
+    (currentPage - 1) * PER_PAGE,
+    currentPage * PER_PAGE,
+  );
 
   const handlePageChange = (page: number) => {
-    if (page < 1 || page > TOTAL_PAGES) return;
+    if (page < 1 || page > totalPages) return;
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -124,40 +128,6 @@ export default function BlogsPage() {
                     <h3 className="text-base lg:text-lg font-extrabold text-dark uppercase leading-snug mb-5 tracking-wide">
                       {blog.title}
                     </h3>
-
-                    {/* Footer */}
-                    <div className="flex items-center justify-between pt-4 border-t border-gray-200">
-                      <div className="flex items-center gap-1.5">
-                        <svg
-                          className="w-4 h-4 text-primary"
-                          fill="currentColor"
-                          viewBox="0 0 24 24"
-                        >
-                          <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
-                        </svg>
-                        <span className="text-xs lg:text-sm text-gray-500 font-medium">
-                          {blog.comments < 10
-                            ? `0${blog.comments}`
-                            : blog.comments}{" "}
-                          Comments
-                        </span>
-                      </div>
-                      <button className="text-gray-400 hover:text-primary transition-colors duration-300 cursor-pointer">
-                        <svg
-                          className="w-5 h-5"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M7 17L17 7M17 7H7M17 7v10"
-                          />
-                        </svg>
-                      </button>
-                    </div>
                   </div>
                 </Link>
               </motion.article>
@@ -166,7 +136,7 @@ export default function BlogsPage() {
 
           <Pagination
             currentPage={currentPage}
-            totalPages={TOTAL_PAGES}
+            totalPages={totalPages}
             onPageChange={handlePageChange}
             previousLabel={BLOGS_PAGE_CONTENT.previous}
             nextLabel={BLOGS_PAGE_CONTENT.next}

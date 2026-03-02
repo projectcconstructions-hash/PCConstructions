@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { PROJECTS } from "../data/projects";
 import { PROJECT_DETAIL_CONTENT } from "../data/content";
 
@@ -68,12 +68,77 @@ export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const [activeIndex, setActiveIndex] = useState(0);
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+  const touchStartX = useRef(0);
+  const touchEndX = useRef(0);
 
   const project = PROJECTS.find((p) => p.id === id);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [id]);
+
+  // Lock body scroll when lightbox is open
+  useEffect(() => {
+    if (lightboxOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [lightboxOpen]);
+
+  const openLightbox = (index: number) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
+
+  const closeLightbox = () => setLightboxOpen(false);
+
+  const lightboxPrev = useCallback(() => {
+    if (!project) return;
+    setLightboxIndex((prev) =>
+      prev === 0 ? project.gallery.length - 1 : prev - 1,
+    );
+  }, [project]);
+
+  const lightboxNext = useCallback(() => {
+    if (!project) return;
+    setLightboxIndex((prev) =>
+      prev === project.gallery.length - 1 ? 0 : prev + 1,
+    );
+  }, [project]);
+
+  // Keyboard navigation for lightbox
+  useEffect(() => {
+    if (!lightboxOpen) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") lightboxPrev();
+      if (e.key === "ArrowRight") lightboxNext();
+    };
+    window.addEventListener("keydown", handleKey);
+    return () => window.removeEventListener("keydown", handleKey);
+  }, [lightboxOpen, lightboxPrev, lightboxNext]);
+
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchMove = (e: React.TouchEvent) => {
+    touchEndX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = () => {
+    const diff = touchStartX.current - touchEndX.current;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) lightboxNext();
+      else lightboxPrev();
+    }
+  };
 
   if (!project) {
     return (
@@ -150,8 +215,30 @@ export default function ProjectDetailPage() {
               transition={{ duration: 0.3 }}
               src={project.gallery[activeIndex]}
               alt={`${project.name} - Image ${activeIndex + 1}`}
-              className="w-full aspect-[16/9] object-cover"
+              className="w-full aspect-[16/9] object-cover cursor-pointer"
+              onClick={() => openLightbox(activeIndex)}
             />
+
+            {/* Fullscreen button */}
+            <button
+              onClick={() => openLightbox(activeIndex)}
+              className="absolute top-3 right-3 lg:top-4 lg:right-4 w-9 h-9 lg:w-10 lg:h-10 rounded-full bg-black/50 backdrop-blur-sm flex items-center justify-center hover:bg-black/70 transition-colors"
+              aria-label="View fullscreen"
+            >
+              <svg
+                className="w-4 h-4 lg:w-5 lg:h-5 text-white"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9M20.25 20.25h-4.5m4.5 0v-4.5m0 4.5L15 15"
+                />
+              </svg>
+            </button>
 
             {/* Left arrow */}
             <button
@@ -244,6 +331,134 @@ export default function ProjectDetailPage() {
           </div>
         </div>
       </section>
+      {/* Fullscreen Lightbox */}
+      <AnimatePresence>
+        {lightboxOpen && project && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center"
+            onClick={closeLightbox}
+            onTouchStart={handleTouchStart}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
+          >
+            {/* Close button */}
+            <button
+              onClick={closeLightbox}
+              className="absolute top-4 right-4 lg:top-6 lg:right-6 z-10 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors"
+              aria-label="Close fullscreen"
+            >
+              <svg
+                className="w-5 h-5 lg:w-6 lg:h-6 text-white"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+
+            {/* Counter */}
+            <div className="absolute top-5 left-1/2 -translate-x-1/2 text-white/70 text-sm lg:text-base font-medium z-10">
+              {lightboxIndex + 1} / {project.gallery.length}
+            </div>
+
+            {/* Previous button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                lightboxPrev();
+              }}
+              className="absolute left-2 lg:left-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors"
+              aria-label="Previous image"
+            >
+              <svg
+                className="w-5 h-5 lg:w-6 lg:h-6 text-white"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
+              </svg>
+            </button>
+
+            {/* Image */}
+            <motion.img
+              key={lightboxIndex}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.2 }}
+              src={project.gallery[lightboxIndex]}
+              alt={`${project.name} - Fullscreen ${lightboxIndex + 1}`}
+              className="max-w-[92vw] max-h-[80vh] lg:max-w-[85vw] lg:max-h-[85vh] object-contain rounded-lg select-none"
+              onClick={(e) => e.stopPropagation()}
+              draggable={false}
+            />
+
+            {/* Next button */}
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                lightboxNext();
+              }}
+              className="absolute right-2 lg:right-6 top-1/2 -translate-y-1/2 z-10 w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/10 backdrop-blur-sm flex items-center justify-center hover:bg-white/20 transition-colors"
+              aria-label="Next image"
+            >
+              <svg
+                className="w-5 h-5 lg:w-6 lg:h-6 text-white"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M9 5l7 7-7 7"
+                />
+              </svg>
+            </button>
+
+            {/* Thumbnail strip */}
+            <div className="absolute bottom-4 lg:bottom-6 left-1/2 -translate-x-1/2 flex gap-1.5 lg:gap-2 max-w-[90vw] overflow-x-auto pb-1 px-2">
+              {project.gallery.map((img, i) => (
+                <button
+                  key={i}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setLightboxIndex(i);
+                  }}
+                  className={`shrink-0 w-12 h-9 lg:w-16 lg:h-12 rounded-md overflow-hidden border-2 transition-all duration-200 ${
+                    i === lightboxIndex
+                      ? "border-primary opacity-100 scale-105"
+                      : "border-transparent opacity-50 hover:opacity-80"
+                  }`}
+                >
+                  <img
+                    src={img}
+                    alt={`Thumb ${i + 1}`}
+                    className="w-full h-full object-cover"
+                    draggable={false}
+                  />
+                </button>
+              ))}
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

@@ -14,7 +14,7 @@ const TESTIMONIALS: Testimonial[] = [
   {
     avatar:
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80",
-    name: "CLINET ONE",
+    name: "CLIENT ONE",
     role: "HOUSE OWNER",
     text: "Project C Constructions delivered exceptional quality and attention to detail from start to finish. The team maintained clear communication, followed timelines strictly, and ensured every aspect of the project met our expectations.",
     rating: 5,

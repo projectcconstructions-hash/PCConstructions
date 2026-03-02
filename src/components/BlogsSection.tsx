@@ -90,29 +90,10 @@ export default function BlogsSection() {
                         {blog.author}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1.5">
-                      <svg
-                        className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-primary"
-                        fill="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z" />
-                      </svg>
-                      <span className="text-[10px] lg:text-xs font-semibold text-primary">
-                        {blog.comments} COMMENT
-                      </span>
-                    </div>
                   </div>
                   <h3 className="text-sm lg:text-xl font-extrabold text-dark tracking-wide uppercase mb-4 lg:mb-6 leading-snug">
                     {blog.title}
                   </h3>
-                  <Link
-                    to={`/blogs/${blog.slug}`}
-                    className="inline-flex items-center gap-2 text-primary-dark font-semibold text-[10px] lg:text-xs border border-primary-dark rounded-md px-3.5 py-1.5 hover:bg-primary-dark hover:text-white transition-all duration-300 w-fit"
-                  >
-                    {BLOGS_CONTENT.readMore}
-                    <ArrowIcon withLine />
-                  </Link>
                 </div>
               </motion.div>
             );

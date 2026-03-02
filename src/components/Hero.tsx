@@ -1,17 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { HERO_CONTENT } from "../data/content";
-import { useScrollToSection } from "../hooks/useScrollToSection";
 
 const { slides: SLIDES, autoPlayInterval: AUTO_PLAY_INTERVAL } = HERO_CONTENT;
 
 export default function Hero() {
   const [current, setCurrent] = useState(0);
-  const scrollToSection = useScrollToSection();
-
-  const scrollToContact = () => {
-    scrollToSection({ path: "/", hash: "contact" });
-  };
+  const navigate = useNavigate();
 
   const next = useCallback(
     () => setCurrent((prev) => (prev + 1) % SLIDES.length),
@@ -82,7 +78,7 @@ export default function Hero() {
             className="flex flex-row items-center gap-3 sm:gap-4"
           >
             <button
-              onClick={scrollToContact}
+              onClick={() => navigate("/contact")}
               className="btn-gradient inline-flex items-center justify-center gap-2 text-white font-semibold text-[11px] lg:text-sm tracking-wider px-4 lg:px-7 py-2.5 lg:py-3.5 transition-all duration-300 hover:shadow-lg hover:shadow-primary/30 border-none cursor-pointer"
             >
               {HERO_CONTENT.ctaPrimary}
@@ -102,12 +98,6 @@ export default function Hero() {
                   />
                 </svg>
               </span>
-            </button>
-            <button
-              onClick={scrollToContact}
-              className="inline-flex items-center justify-center text-white lg:bg-white/10 lg:hover:bg-white lg:hover:text-dark hover:text-primary font-semibold text-[11px] lg:text-sm tracking-wider px-4 lg:px-7 py-2.5 lg:py-3.5 lg:rounded-[5px] transition-all duration-300 bg-transparent border-none cursor-pointer"
-            >
-              {HERO_CONTENT.ctaSecondary}
             </button>
           </motion.div>
         </div>
