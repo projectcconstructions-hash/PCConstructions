@@ -57,29 +57,43 @@ export default function ContactSection() {
 
     setIsSubmitting(true);
     try {
-      const response = await fetch(
-        "https://formsubmit.co/ajax/info@pcconstructions.ca",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          },
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            mobile: formData.mobile,
-            "Project Type": formData.projectType,
-            subject: formData.subject,
-            message: formData.message,
-            _subject: `New Contact Form: ${formData.subject}`,
-            _template: "table",
-          }),
-        },
-      );
+      const apiKey = import.meta.env.VITE_WEB3FORMS_KEY;
+      if (!apiKey) {
+        toast.error("Configuration error. Please contact the administrator.");
+        console.error("Missing VITE_WEB3FORMS_KEY environment variable");
+        setIsSubmitting(false);
+        return;
+      }
 
-      if (response.ok) {
-        toast.success("Your message has been sent to info@pcconstructions.ca");
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          access_key: apiKey,
+          subject: `New Enquiry: ${formData.subject}`,
+          from_name: "PC Constructions Website",
+          replyto: formData.email,
+          // Contact details
+          "Full Name": formData.name,
+          "Email Address": formData.email,
+          "Mobile Number": formData.mobile,
+          "Project Type": formData.projectType,
+          Subject: formData.subject,
+          Message: formData.message,
+          // Email formatting
+          "---": "---",
+          "Submitted From": "PC Constructions Website - Contact Form",
+          Note: "Please respond to this enquiry within 24 hours.",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast.success("Your message has been sent successfully!");
         setFormData({
           name: "",
           email: "",
@@ -90,9 +104,13 @@ export default function ContactSection() {
         });
         setErrors({});
       } else {
-        toast.error("Failed to send message. Please try again.");
+        console.error("Web3Forms error:", data);
+        toast.error(
+          data.message || "Failed to send message. Please try again.",
+        );
       }
-    } catch {
+    } catch (error) {
+      console.error("Network error:", error);
       toast.error("Network error. Please try again later.");
     } finally {
       setIsSubmitting(false);
