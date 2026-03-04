@@ -137,7 +137,7 @@ export const PROJECTS_PAGE_CONTENT = {
     location: "Location",
   },
   clearButton: "CLEAR",
-  perPage: 8,
+  perPage: 12,
   previous: "PREVIOUS",
   next: "NEXT",
 };
@@ -146,7 +146,7 @@ export const BLOGS_PAGE_CONTENT = {
   heroTitle: "BLOGS",
   heroSubtitle:
     "Insights, renovation ideas, and expert guidance from the world of construction and interior solutions.",
-  perPage: 6,
+  perPage: 12,
   previous: "PREVIOUS",
   next: "NEXT",
 };

@@ -134,13 +134,15 @@ export default function BlogsPage() {
             ))}
           </div>
 
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-            previousLabel={BLOGS_PAGE_CONTENT.previous}
-            nextLabel={BLOGS_PAGE_CONTENT.next}
-          />
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              previousLabel={BLOGS_PAGE_CONTENT.previous}
+              nextLabel={BLOGS_PAGE_CONTENT.next}
+            />
+          )}
         </div>
       </section>
     </main>

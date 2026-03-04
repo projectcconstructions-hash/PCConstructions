@@ -2,11 +2,11 @@ import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import {
-  ALL_PROJECTS,
-  PROJECT_TYPE_OPTIONS,
-  SERVICE_CATEGORY_OPTIONS,
-  LOCATION_OPTIONS,
-} from "../data/projects";
+  useProjects,
+  useLocationOptions,
+  useServiceCategoryOptions,
+  useProjectTypeOptions,
+} from "../hooks/useProjects";
 import { PROJECTS_PAGE_CONTENT } from "../data/content";
 import Pagination from "../components/shared/Pagination";
 
@@ -60,6 +60,10 @@ function SelectDropdown({
 
 export default function ProjectsListingPage() {
   const navigate = useNavigate();
+  const { projects: allProjects, loading } = useProjects();
+  const locationOptions = useLocationOptions(allProjects);
+  const serviceCategoryOptions = useServiceCategoryOptions(allProjects);
+  const projectTypeOptions = useProjectTypeOptions(allProjects);
   const [projectType, setProjectType] = useState<string>("all");
   const [serviceCategory, setServiceCategory] = useState<string>("all");
   const [location, setLocation] = useState<string>("all");
@@ -69,13 +73,11 @@ export default function ProjectsListingPage() {
     window.scrollTo(0, 0);
   }, []);
 
-  const filteredProjects = ALL_PROJECTS.filter((p) => {
-    if (
-      serviceCategory !== "all" &&
-      !p.category.includes(serviceCategory as "commercial" | "residential")
-    )
+  const filteredProjects = allProjects.filter((p) => {
+    if (serviceCategory !== "all" && !p.category.includes(serviceCategory))
       return false;
     if (projectType !== "all" && p.type !== projectType) return false;
+    if (location !== "all" && p.location !== location) return false;
     return true;
   });
 
@@ -145,19 +147,19 @@ export default function ProjectsListingPage() {
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-5">
               <SelectDropdown
                 label={PROJECTS_PAGE_CONTENT.filterLabels.projectType}
-                options={PROJECT_TYPE_OPTIONS}
+                options={projectTypeOptions}
                 value={projectType}
                 onChange={setProjectType}
               />
               <SelectDropdown
                 label={PROJECTS_PAGE_CONTENT.filterLabels.serviceCategory}
-                options={SERVICE_CATEGORY_OPTIONS}
+                options={serviceCategoryOptions}
                 value={serviceCategory}
                 onChange={setServiceCategory}
               />
               <SelectDropdown
                 label={PROJECTS_PAGE_CONTENT.filterLabels.location}
-                options={LOCATION_OPTIONS}
+                options={locationOptions}
                 value={location}
                 onChange={setLocation}
               />
@@ -178,71 +180,83 @@ export default function ProjectsListingPage() {
       <section className="py-10 lg:py-16 bg-white">
         <div className="max-w-7xl mx-auto px-7 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 lg:gap-5">
-            <AnimatePresence mode="popLayout">
-              {paginatedProjects.map((project, index) => {
-                const categoryLabel = project.category.includes("commercial")
-                  ? "CONSTRUCTION"
-                  : "INTERIOR";
-                const projectName = project.name.toUpperCase();
-                return (
-                  <motion.div
-                    key={project.id}
-                    layout
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.9 }}
-                    transition={{ duration: 0.4, delay: index * 0.03 }}
-                    onClick={() => navigate(`/projects/${project.id}`)}
-                    className="group cursor-pointer overflow-hidden rounded-lg"
-                  >
-                    {/* Image */}
-                    <div className="relative overflow-hidden aspect-[4/3]">
-                      <img
-                        src={project.image}
-                        alt={project.name}
-                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                      />
-                    </div>
+            {loading ? (
+              Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="overflow-hidden rounded-lg">
+                  <div className="aspect-[4/3] bg-gray-200 animate-pulse" />
+                  <div className="bg-white border border-t-0 border-gray-200 px-3 py-2.5 lg:px-4 lg:py-3">
+                    <div className="h-3 bg-gray-200 rounded animate-pulse mb-2 w-16" />
+                    <div className="h-4 bg-gray-200 rounded animate-pulse w-24" />
+                  </div>
+                </div>
+              ))
+            ) : (
+              <AnimatePresence mode="popLayout">
+                {paginatedProjects.map((project, index) => {
+                  const categoryLabel = project.category[0] || "project";
+                  const projectName = project.name;
+                  return (
+                    <motion.div
+                      key={project.id}
+                      layout
+                      initial={{ opacity: 0, scale: 0.9 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.9 }}
+                      transition={{ duration: 0.4, delay: index * 0.03 }}
+                      onClick={() => navigate(`/projects/${project.id}`)}
+                      className="group cursor-pointer overflow-hidden rounded-lg"
+                    >
+                      {/* Image */}
+                      <div className="relative overflow-hidden aspect-[4/3]">
+                        <img
+                          src={project.image}
+                          alt={project.name}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
 
-                    {/* Label bar */}
-                    <div className="bg-white border border-t-0 border-gray-200 px-3 py-2.5 lg:px-4 lg:py-3 flex items-center justify-between">
-                      <div>
-                        <span className="block text-[8px] lg:text-[10px] font-semibold tracking-wider text-gray-400 uppercase">
-                          {categoryLabel}
-                        </span>
-                        <span className="block text-xs lg:text-sm font-extrabold text-dark uppercase tracking-wide">
-                          {projectName}
-                        </span>
+                      {/* Label bar */}
+                      <div className="bg-white border border-t-0 border-gray-200 px-3 py-2.5 lg:px-4 lg:py-3 flex items-center justify-between">
+                        <div>
+                          <span className="block text-[8px] lg:text-[10px] font-semibold tracking-wider text-gray-400 capitalize">
+                            {categoryLabel}
+                          </span>
+                          <span className="block text-xs lg:text-sm font-extrabold text-dark capitalize tracking-wide">
+                            {projectName}
+                          </span>
+                        </div>
+                        <div className="w-7 h-7 lg:w-8 lg:h-8 rounded-full btn-gradient flex items-center justify-center shrink-0">
+                          <svg
+                            className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-white"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9 5l7 7-7 7"
+                            />
+                          </svg>
+                        </div>
                       </div>
-                      <div className="w-7 h-7 lg:w-8 lg:h-8 rounded-full btn-gradient flex items-center justify-center shrink-0">
-                        <svg
-                          className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-white"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          viewBox="0 0 24 24"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            d="M9 5l7 7-7 7"
-                          />
-                        </svg>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
+            )}
           </div>
 
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-            previousLabel={PROJECTS_PAGE_CONTENT.previous}
-            nextLabel={PROJECTS_PAGE_CONTENT.next}
-          />
+          {totalPages > 1 && (
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+              previousLabel={PROJECTS_PAGE_CONTENT.previous}
+              nextLabel={PROJECTS_PAGE_CONTENT.next}
+            />
+          )}
         </div>
       </section>
     </main>

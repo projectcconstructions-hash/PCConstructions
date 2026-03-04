@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { PROJECTS } from "../data/projects";
+import { useProject } from "../hooks/useProjects";
 import { PROJECT_DETAIL_CONTENT } from "../data/content";
 
 const INFO_CARDS = [
@@ -36,12 +36,17 @@ const INFO_CARDS = [
         <path
           strokeLinecap="round"
           strokeLinejoin="round"
-          d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z"
+          d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z"
+        />
+        <path
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z"
         />
       </svg>
     ),
     key: "area",
-    title: PROJECT_DETAIL_CONTENT.infoCards.area,
+    title: "Location",
   },
   {
     icon: (
@@ -67,13 +72,12 @@ const INFO_CARDS = [
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
+  const { project, loading } = useProject(id);
   const [activeIndex, setActiveIndex] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
-
-  const project = PROJECTS.find((p) => p.id === id);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -143,6 +147,17 @@ export default function ProjectDetailPage() {
     }
   };
 
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center pt-20">
+        <div className="text-center">
+          <div className="w-10 h-10 border-4 border-primary border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+          <p className="text-gray-500 text-sm">Loading project...</p>
+        </div>
+      </div>
+    );
+  }
+
   if (!project) {
     return (
       <div className="min-h-screen flex items-center justify-center pt-20">
@@ -161,9 +176,9 @@ export default function ProjectDetailPage() {
     );
   }
 
-  const categoryLabel = project.category.includes("commercial")
-    ? "COMMERCIAL"
-    : "RESIDENTIAL";
+  const categoryRaw = project.category[0] || "project";
+  const categoryLabel =
+    categoryRaw.charAt(0).toUpperCase() + categoryRaw.slice(1).toLowerCase();
 
   const infoValues: Record<string, string> = {
     scope: project.scope,
