@@ -13,7 +13,31 @@ import ContactPage from "./pages/ContactPage";
 function App() {
   return (
     <div className="min-h-screen">
-      <Toaster position="top-center" toastOptions={{ duration: 4000 }} />
+      <Toaster
+        position="top-center"
+        toastOptions={{
+          duration: 3000,
+          style: {
+            maxWidth: "90vw",
+            fontSize: "14px",
+            padding: "12px 16px",
+          },
+          success: {
+            style: {
+              background: "#f0fdf4",
+              color: "#166534",
+              border: "1px solid #bbf7d0",
+            },
+          },
+          error: {
+            style: {
+              background: "#fef2f2",
+              color: "#991b1b",
+              border: "1px solid #fecaca",
+            },
+          },
+        }}
+      />
       <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
