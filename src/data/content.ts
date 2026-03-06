@@ -11,7 +11,7 @@ export const SITE = {
     line1: "1177 Brimley Rd",
     line2: "Scarborough, ON M1P 3G5",
     pincode: "",
-    full: "3434 Eglinton Ave E, Scarborough, ON M1J 2J1",
+    full: "1177 Brimley Rd, Scarborough, ON M1P 3G5",
   },
 };
 
