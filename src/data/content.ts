@@ -8,10 +8,10 @@ export const SITE = {
   whatsappNumber: "16475739876",
   phoneUri: "tel:+16475739876",
   address: {
-    line1: "3434 Eglinton Ave E",
-    line2: "Scarborough, ON M1J 2J1",
+    line1: "1177 Brimley Rd",
+    line2: "Scarborough, ON M1P 3G5",
     pincode: "",
-    full: "3434 Eglinton Ave E, Scarborough, ON M1J 2J1",
+    full: "1177 Brimley Rd, Scarborough, ON M1P 3G5",
   },
 };
 
