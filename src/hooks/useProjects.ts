@@ -1,42 +1,60 @@
 import { useState, useEffect, useMemo } from "react";
 import type { Project, Category } from "../data/projects";
 
-const API_URL = "https://pcconstructions.ca/admin/api/projects.php";
+const API_URL = "https://pcconstructions.ca/admin/api/gallery.php";
 
-interface ApiProject {
+interface GalleryProject {
+  folder: string;
   title: string;
-  images: string[];
-  location: string;
-  type: string;
-  year: string;
-  address: string;
-  style: string;
-  description: string;
+  description: string | null;
+  location: string | null;
+  address: string | null;
+  type: string | null;
+  style: string | null;
+  year: string | null;
   image_count: number;
+  images: string[];
+}
+
+interface GalleryApiResponse {
+  success: boolean;
+  total_projects: number;
+  projects: GalleryProject[];
 }
 
 function capitalize(s: string) {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-function transformApiProject(key: string, apiProject: ApiProject): Project {
-  const categoryValue = apiProject.type.toLowerCase();
+function extractFolderFromImages(images: string[]): string {
+  if (!images.length) return "unknown";
+  const match = images[0].match(/\/gallery\/([^/]+)\//);
+  return match ? match[1] : "unknown";
+}
+
+function transformGalleryProject(gp: GalleryProject): Project {
+  const folder = gp.folder || extractFolderFromImages(gp.images);
+  const categoryValue = (gp.type || "commercial").toLowerCase();
+  const styleLower = (gp.style || "construction").toLowerCase();
+  const locationVal = (gp.location || "").toLowerCase();
 
   return {
-    id: key.replace(/_/g, "-"),
-    name: apiProject.title.split(" - ")[0].trim(),
-    image: apiProject.images[0] || "",
+    id: folder.toLowerCase(),
+    name: gp.title.split(" - ")[0].trim(),
+    image: gp.images[0] || "",
     category: [categoryValue] as Category[],
-    description: apiProject.description,
-    gallery: apiProject.images,
-    scope: `Complete ${categoryValue} ${apiProject.style.toLowerCase()} renovation including custom interior design, signage, and finishing works.`,
-    area: `${apiProject.address}, ${capitalize(apiProject.location)}`,
-    duration: `Completed in ${apiProject.year}`,
-    type: apiProject.style?.toLowerCase() || "construction",
-    location: apiProject.location.toLowerCase(),
-    year: apiProject.year,
-    address: apiProject.address,
-    style: apiProject.style,
+    description: gp.description || "",
+    gallery: gp.images,
+    scope: `Complete ${categoryValue} ${styleLower} renovation including custom interior design, signage, and finishing works.`,
+    area: gp.address
+      ? `${gp.address}, ${capitalize(gp.location || "")}`
+      : capitalize(gp.location || ""),
+    duration: gp.year ? `Completed in ${gp.year}` : "",
+    type: styleLower,
+    location: locationVal,
+    year: gp.year || "",
+    address: gp.address || "",
+    style: gp.style || "",
   };
 }
 
@@ -46,10 +64,9 @@ let fetchPromise: Promise<Project[]> | null = null;
 async function fetchProjectsFromApi(): Promise<Project[]> {
   const response = await fetch(API_URL);
   if (!response.ok) throw new Error(`API error: ${response.status}`);
-  const data: Record<string, ApiProject> = await response.json();
-  return Object.entries(data).map(([key, val]) =>
-    transformApiProject(key, val),
-  );
+  const data: GalleryApiResponse = await response.json();
+  if (!data.success) throw new Error("Gallery API returned an error");
+  return data.projects.map(transformGalleryProject);
 }
 
 function getProjects(): Promise<Project[]> {
@@ -75,11 +92,7 @@ export function useProjects() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (cachedProjects) {
-      setProjects(cachedProjects);
-      setLoading(false);
-      return;
-    }
+    if (cachedProjects) return;
 
     let cancelled = false;
     getProjects()
