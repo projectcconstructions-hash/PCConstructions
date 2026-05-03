@@ -8,10 +8,10 @@ export const SITE = {
   whatsappNumber: "16475739876",
   phoneUri: "tel:+16475739876",
   address: {
-    line1: "1177 Brimley Rd",
-    line2: "Scarborough, ON M1P 3G5",
+    line1: "1176 Kennedy Rd",
+    line2: "Scarborough, ON M1P 2L1",
     pincode: "",
-    full: "1177 Brimley Rd, Scarborough, ON M1P 3G5",
+    full: "1176 Kennedy Rd, Scarborough, ON M1P 2L1",
   },
 };
 
@@ -19,24 +19,24 @@ export const HERO_CONTENT = {
   slides: [
     {
       image:
-        "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1920&q=80",
+        "src/assets/images/hero/hero-1.jpg",
       alt: "Construction professionals at work",
     },
     {
       image:
-        "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1920&q=80",
+        "src/assets/images/hero/hero-2.jpg",
       alt: "Commercial building construction",
     },
     {
       image:
-        "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1920&q=80",
+        "src/assets/images/hero/hero-3.jpg",
       alt: "Modern architecture project",
     },
   ],
   autoPlayInterval: 5000,
   tagline: "BUILD BETTER",
   taglineHighlight: "SPACES",
-  heading: "RESIDENTIAL & COMMERCIAL",
+  heading: "COMMERCIAL & RESIDENTIAL",
   subheading: "PROJECT C CONSTRUCTIONS",
   ctaPrimary: "GET FREE ESTIMATE",
 };
