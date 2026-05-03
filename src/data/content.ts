@@ -8,11 +8,11 @@ export const SITE = {
   whatsappNumber: "16475739876",
   phoneUri: "tel:+16475739876",
   address: {
-    line1: "1176 Kennedy Rd",
-    line2: "Scarborough, ON M1P 2L1",
+   line1: "1177 Brimley Rd",
+    line2: "Scarborough, ON M1P 3G5",
     pincode: "",
-    full: "1176 Kennedy Rd, Scarborough, ON M1P 2L1",
-  },
+    full: "1177 Brimley Rd, Scarborough, ON M1P 3G5"
+  }
 };
 
 export const HERO_CONTENT = {
