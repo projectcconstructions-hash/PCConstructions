@@ -12,56 +12,56 @@ interface ServiceItem {
 const SERVICES: ServiceItem[] = [
   {
     image:
-      "src/assets/images/services/custom_interiors.jpg",
+      "public/services/custom_interiors.jpg",
     title: "CUSTOM INTERIORS",
     description:
       "Complete interior design and renovation solutions crafted to enhance functionality, comfort, and visual appeal.",
   },
   {
     image:
-      "src/assets/images/services/legal_basement.jpg",
+      "public/services/legal_basement.jpg",
     title: "LEGAL BASEMENTS",
     description:
       "Professional basement finishing and legal conversions designed to maximize space, safety, and property value.",
   },
   {
     image:
-      "src/assets/images/services/custom_kitchen.jpg",
+      "public/services/custom_kitchen.jpg",
     title: "CUSTOM KITCHENS",
     description:
       "Thoughtfully designed kitchen renovations combining practicality, premium materials, and modern aesthetics.",
   },
   {
     image:
-      "src/assets/images/services/custom_bathroom.jpg",
+      "public/services/custom_bathroom.jpg",
     title: "CUSTOM BATHROOMS",
     description:
       "Refined bathroom renovations delivering comfort, durability, and elegant finishes.",
   },
   {
     image:
-      "src/assets/images/services/flooring.jpg",
+      "public/services/flooring.jpg",
     title: "FLOORING",
     description:
       "Expert installation of hardwood, laminate, tile, and vinyl flooring for lasting performance and style.",
   },
   {
     image:
-      "src/assets/images/services/decks_and_fences.jpg",
+      "public/services/decks_and_fences.jpg",
     title: "DECKS & FENCES",
     description:
       "Custom-built decks and fencing solutions designed to elevate outdoor living spaces.",
   },
   {
     image:
-      "src/assets/images/services/Interlocking.jpg",
+      "public/services/Interlocking.jpg",
     title: "INTERLOCKING",
     description:
       "Precision interlocking stone installation for driveways, walkways, and patios.",
   },
   {
     image:
-      "src/assets/images/services/sign_boards.jpg",
+      "public/services/sign_boards.jpg",
     title: "SIGN BOARDS",
     description:
       "Custom commercial signage design and installation for restaurants and business spaces.",

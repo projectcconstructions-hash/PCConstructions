@@ -19,17 +19,17 @@ export const HERO_CONTENT = {
   slides: [
     {
       image:
-        "src/assets/images/hero/hero-1.jpg",
+        "public/hero/hero-1.jpg",
       alt: "Construction professionals at work",
     },
     {
       image:
-        "src/assets/images/hero/hero-2.jpg",
+        "public/hero/hero-2.jpg",
       alt: "Commercial building construction",
     },
     {
       image:
-        "src/assets/images/hero/hero-3.jpg",
+        "public/hero/hero-3.jpg",
       alt: "Modern architecture project",
     },
   ],
